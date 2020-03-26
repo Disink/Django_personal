@@ -22,6 +22,7 @@ class Work(OrderedModel):
     name = models.CharField(max_length=200, unique=True)
     image = models.ImageField(upload_to='work_image')
     content = models.TextField()
+    url = models.CharField(max_length=160, blank=True, default='')
 
     def __str__(self):
         return self.name

@@ -2,25 +2,25 @@
 {% block content %}
 {% load crispy_forms_tags %}
 <style type="text/css">
-    .thumbnail { width: 100%; }
-    
-    .thumbnail-8 { width: 80%; }
-    
-    .thumbnail-6 { width: 60%; }
-    
-    .text-orange { color: #E70; }
-    
-    .bg-orange { background: #E70; }
-    
+    .thumbnail {width: 100%;}
+
+    .thumbnail-8 {width: 80%;}
+
+    .thumbnail-6 {width: 60%;}
+
+    .text-orange {color: #E70;}
+
+    .bg-orange {background: #E70;}
+
     .square {
         border: 1px solid black;
         border-radius:5px;
         transition: .5s;
         overflow: hidden;
     }
-    
+
     .height-vh {height: 100vh;}
-    
+
     .about-select {
         width: 90%;
         background: #E70;
@@ -29,43 +29,43 @@
         transition: .5s;
         overflow: hidden;
     }
-    
+
     .about-select:hover {
         color: white;
         background: #111;
     }
-    
+
     .about-select.active { background: #111; }
-    
+
     .center {
         align-items: center;
         justify-content: center;
         display: flex;
     }
-    
+
     .fill-up:before{
         content: "";
         padding-top: 100%;
     }
-    
+
     a:hover {
         text-decoration: none;
     }
-    
+
     .about {
         display: none;
         order:0;
     }
-    
-    .about.active { order:1; }
-    
+
+    .about.active {order:1;}
+
     .left-image-box {
         background: white;
         border: 15px double #E70;
         border-radius: 100%;
         overflow: hidden;
     }
-    
+
     #to-top {
         width: 90%;
         background: black;
@@ -78,19 +78,19 @@
         bottom: 1vh;
         flex-flow: column;
     }
-    
+
     #head-box {
         background: black;
         background-size: cover;
         min-height:100vh;
     }
-    
+
     #body-box {
         display: none;
         background: #E70;
         min-height: 100vh;
     }
-    
+
     #about-box {
         border: 5vw solid black;
         display: flex;
@@ -98,30 +98,34 @@
         background: black;
         border-radius: 10px;
     }
-    
+
     .head-title {color: white;}
     .head-content { color: white; font-family: cwTeXFangSong;}
-    
+
     .about-title {color: white;}
-    .about-title:first-letter {
-        color: #E70;
-    }
-    
+    .about-title:first-letter {color: #E70;}
+
     .body-title {color: white;}
-    .body-title:first-letter {
-        color: #E70;
-    }
+    .body-title:first-letter {color: #E70;}
     .body-content {color: white; font-family: cwTeXFangSong;}
     .body-data {color: white;}
-    
+
     .about-skill-data {
         background: #E70;
         border-radius: 10px;
         width: 100%;
     }
-    
-    
-    .about-skill-data:hover { background: #C50; }
+
+    .about-work-more-box {text-align: left;}
+
+    .about-work-more-link {color: #E70;}
+
+    .about-work-more-link:hover {
+        color: #C50;
+        text-decoration: underline;
+    }
+
+    .about-skill-data:hover {background: #C50;}
     
     .submit-button {
         background: #E70;
@@ -132,31 +136,31 @@
         margin-top: 5vh;
         transition: .5s;
     }
-    
+
     .submit-button:hover {
         background: #C50;
         padding: 10px;
     }
-    
+
     .body-image-box {
         background: white;
         border: 2px solid #E70;
         border-radius: 15px;
         overflow: hidden;
     }
-    
+
     .link-title {
         color: white;
         text-align: center;
-        }
-    
-    .link-title:first-letter { color: #E70; }
+    }
+
+    .link-title:first-letter {color: #E70;}
     
     .link {
         padding-bottom: 10px;
         transition: .5s;
         }
-    
+
     .link:hover {
         background: #222;
         border-radius: 10px;
@@ -209,6 +213,8 @@
         .link-title {font-size:4vw;}
     
         .about-title {font-size:10vw; text-align: center;}
+        
+        .about-work-more-link {font-size:4vw;}
     
         #to-top {font-size:3vw;}
     
@@ -232,6 +238,8 @@
         .link-title {font-size:4vw;}
     
         .about-title {font-size:10vw; text-align: center;}
+
+        .about-work-more-link {font-size:3vw;}
     
         .submit-button {font-size: 2.6vw}
     
@@ -258,6 +266,8 @@
     
         .about-title {font-size:4vw; text-align: unset;}
     
+        .about-work-more-link {font-size:2vw;}
+
         .submit-button {font-size: 1.5vw}
     
         #to-top {font-size:2vw;}
@@ -279,6 +289,8 @@
         .body-data {font-size:1.5vw;}
     
         .link-title {font-size:2.5vw;}
+        
+        .about-work-more-link {font-size:2vw;}
     
         #to-top {font-size:1.5vw;}
     }
@@ -289,9 +301,9 @@
         border: 1px solid white;
     }
     
-    .requiredField { color: white; }
+    .requiredField {color: white;}
     
-    .requiredField:first-letter { color: #E70; }
+    .requiredField:first-letter {color: #E70;}
 </style>
 
 <script type="text/javascript">
@@ -384,6 +396,7 @@
                                     <div class="col-9">
                                         <p class="body-title">{{ work.name }}</p>
                                         <p class="body-content">{{ work.content }}</p>
+                                        <div class="about-work-more-box"><a class="about-work-more-link" href="{{ work.url }}">more...</a></div>
                                     </div>
                                     <div class="col-3 p-0">
                                         <div class="body-image-box center">
