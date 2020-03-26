@@ -1,0 +1,451 @@
+{% extends "base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+<style type="text/css">
+    .thumbnail { width: 100%; }
+    
+    .thumbnail-8 { width: 80%; }
+    
+    .thumbnail-6 { width: 60%; }
+    
+    .text-orange { color: #E70; }
+    
+    .bg-orange { background: #E70; }
+    
+    .square {
+        border: 1px solid black;
+        border-radius:5px;
+        transition: .5s;
+        overflow: hidden;
+    }
+    
+    .height-vh {height: 100vh;}
+    
+    .about-select {
+        width: 90%;
+        background: #E70;
+        color: white;
+        border-radius:10px;
+        transition: .5s;
+        overflow: hidden;
+    }
+    
+    .about-select:hover {
+        color: white;
+        background: #111;
+    }
+    
+    .about-select.active { background: #111; }
+    
+    .center {
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
+    
+    .fill-up:before{
+        content: "";
+        padding-top: 100%;
+    }
+    
+    a:hover {
+        text-decoration: none;
+    }
+    
+    .about {
+        display: none;
+        order:0;
+    }
+    
+    .about.active { order:1; }
+    
+    .left-image-box {
+        background: white;
+        border: 15px double #E70;
+        border-radius: 100%;
+        overflow: hidden;
+    }
+    
+    #to-top {
+        width: 90%;
+        background: black;
+        color: white;
+        border-radius:100%;
+        transition: .5s;
+        overflow: hidden;
+        position: fixed;
+        right: 1vh;
+        bottom: 1vh;
+        flex-flow: column;
+    }
+    
+    #head-box {
+        background: black;
+        background-size: cover;
+        min-height:100vh;
+    }
+    
+    #body-box {
+        display: none;
+        background: #E70;
+        min-height: 100vh;
+    }
+    
+    #about-box {
+        border: 5vw solid black;
+        display: flex;
+        flex-flow: column;
+        background: black;
+        border-radius: 10px;
+    }
+    
+    .head-title {color: white;}
+    .head-content { color: white; font-family: cwTeXFangSong;}
+    
+    .about-title {color: white;}
+    .about-title:first-letter {
+        color: #E70;
+    }
+    
+    .body-title {color: white;}
+    .body-title:first-letter {
+        color: #E70;
+    }
+    .body-content {color: white; font-family: cwTeXFangSong;}
+    .body-data {color: white;}
+    
+    .about-skill-data {
+        background: #E70;
+        border-radius: 10px;
+        width: 100%;
+    }
+    
+    
+    .about-skill-data:hover { background: #C50; }
+    
+    .submit-button {
+        background: #E70;
+        border-radius: 10px;
+        border: 1px;
+        color: white;
+        min-width: 100%;
+        margin-top: 5vh;
+        transition: .5s;
+    }
+    
+    .submit-button:hover {
+        background: #C50;
+        padding: 10px;
+    }
+    
+    .body-image-box {
+        background: white;
+        border: 2px solid #E70;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .link-title {
+        color: white;
+        text-align: center;
+        }
+    
+    .link-title:first-letter { color: #E70; }
+    
+    .link {
+        padding-bottom: 10px;
+        transition: .5s;
+        }
+    
+    .link:hover {
+        background: #222;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    
+    @media(max-width:767px){
+        #right-box {text-align: center;}
+        .select-button {
+            margin-right: auto;
+            margin-left: auto;
+        }
+    }
+
+    @media(min-width:768px){
+        #right-box {text-align: center;}
+    
+        .select-button {
+            margin-right: auto;
+            margin-left: auto;
+        }
+    }
+
+    @media(min-width:992px){
+        #right-box {text-align: unset;}
+        .select-button {
+            margin-right: unset;
+            margin-left: unset;
+        }
+    
+        .about-select-box {
+            margin-left: unset;
+        }
+    }
+
+    @media(min-width:1200px){
+    }
+
+    @media(max-width:767px){
+        .about-select{font-size: 3.2vw;}
+        .form-group {font-size: 3.2vw;}
+    
+        .head-title {font-size:8vw;}
+        .head-content {font-size:4.5vw;}
+    
+        .body-title {font-size:5vw;}
+        .body-content {font-size:4.2vw;}
+        .body-data {font-size:4vw;}
+    
+        .link-title {font-size:4vw;}
+    
+        .about-title {font-size:10vw; text-align: center;}
+    
+        #to-top {font-size:3vw;}
+    
+        #to-top {
+        width: 12vw;
+        height: 12vw;
+        }
+    }
+
+    @media(min-width:768px){
+        .about-select{font-size: 2.5vw;}
+        .form-group {font-size: 4vw;}
+    
+        .head-title {font-size:8vw;}
+        .head-content {font-size:5.5vw;}
+    
+        .body-title {font-size:4vw;}
+        .body-content {font-size:3.2vw;}
+        .body-data {font-size:3vw;}
+    
+        .link-title {font-size:4vw;}
+    
+        .about-title {font-size:10vw; text-align: center;}
+    
+        .submit-button {font-size: 2.6vw}
+    
+        #to-top {font-size:3vw;}
+    
+        #to-top {
+        width: 12vw;
+        height: 12vw;
+        }
+    }
+
+    @media(min-width:992px){
+        .about-select{font-size: 1.5vw;}
+        .form-group {font-size: 1.5vw;}
+    
+        .head-title {font-size:8vw;}
+        .head-content {font-size:3vw;}
+    
+        .body-title {font-size:3.5vw;}
+        .body-content {font-size:2vw;}
+        .body-data {font-size:1.8vw;}
+    
+        .link-title {font-size:3.5vw;}
+    
+        .about-title {font-size:4vw; text-align: unset;}
+    
+        .submit-button {font-size: 1.5vw}
+    
+        #to-top {font-size:2vw;}
+        #to-top {
+        width: 6vw;
+        height: 6vw;
+        }
+    }
+
+    @media(min-width:1200px){
+        .about-select{font-size: 1.1vw;}
+        .form-group {font-size: 1.5vw;}
+    
+        .head-title {font-size:6vw;}
+        .head-content {font-size:2.2vw;}
+    
+        .body-title {font-size:2.5vw;}
+        .body-content {font-size:1.5vw;}
+        .body-data {font-size:1.5vw;}
+    
+        .link-title {font-size:2.5vw;}
+    
+        #to-top {font-size:1.5vw;}
+    }
+    
+    .list-group-item {
+        background: #000;
+        color: white;
+        border: 1px solid white;
+    }
+    
+    .requiredField { color: white; }
+    
+    .requiredField:first-letter { color: #E70; }
+</style>
+
+<script type="text/javascript">
+    window.addEventListener('load', function() {
+
+        let hashtag = window.location.hash;
+        if (hashtag){
+                $("#body-box").show();
+            $(hashtag+ "-box").slideDown( 1000 );
+            $(hashtag + "-box").addClass("active");
+            $(hashtag + "-select").addClass("active");
+        }
+
+        $(window).bind('hashchange', function() {
+            let new_hashtag = window.location.hash;
+
+            if (new_hashtag != hashtag) {
+                $("#body-box").show();
+                $(".about").slideUp( 600 );
+                $(".about").removeClass("active");
+                $(new_hashtag + "-box").slideDown(1200, function(){});
+                $(new_hashtag + "-box").addClass("active");
+
+                $("html, body").animate({
+                    'scrollTop':   $("#body-box").offset().top - $(".navbar").height() + 1
+                }, 600);
+
+                $(".about-select").removeClass("active");
+                $(new_hashtag + "-select").addClass("active");
+                hashtag = new_hashtag;
+            }
+        });
+
+        $("#to-top").click(function(){
+                $("html, body").animate({
+                    'scrollTop': 0
+                }, 600);
+        });
+
+        let head_box_position = $("#head-box").height() - $(document).scrollTop()
+        if (head_box_position < $("#head-box").height()/2) {
+            $("#to-top").show();
+        }else {
+            $("#to-top").hide();
+        }
+
+        $(window).scroll(function() {
+            let new_head_box_position = $("#head-box").height() - $(document).scrollTop()
+            if (new_head_box_position < $("#head-box").height()/2) {
+                $("#to-top").show();
+            }else {
+                $("#to-top").hide();
+            }
+        });
+
+
+    });
+</script>
+<div id="head-box" class="center">
+<div class="container col-sm-10 col-md-10 col-lg-10 col-xl-10">
+    <div class="row">
+        <div id="left-box" class="col-4 col-sm-4 col-md-8 col-lg-5 col-xl-4 container center pt-2">
+            <div class="left-image-box">
+                <img alt="" class="thumbnail" src="{{ head_left_image.url }}">
+            </div>
+        </div>
+
+        <div id="right-box" class="col-md-12 col-lg-7 col-xl-8 right-box container py-3">
+            {{ head_right_article | safe}}
+            {{ head_right_select | safe}}
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div id="body-box">
+<div class="container col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
+
+    <div class="row">
+        <div id="about-box" class=" col container my-5">
+
+            <div class="about" id="work-box">
+                <p class="about-title">Works</p>
+                <div class="col pt-3">
+                    <ul class="list-group list-group-flush">
+                        {% for work in work_list %}
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <p class="body-title">{{ work.name }}</p>
+                                        <p class="body-content">{{ work.content }}</p>
+                                    </div>
+                                    <div class="col-3 p-0">
+                                        <div class="body-image-box center">
+                                            <img alt="" class="thumbnail" src="{{ work.image.url }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="about" id="skill-box">
+                <p class="about-title">Skills</p>
+                {% for skill_group in skill_group_list %}
+                    <p class="body-title">{{ skill_group.title }}</p>
+                    <p class="body-content">{{ skill_group.description }}</p>
+                    <div class="row m-0">
+                    {% for skill in skill_group.skills.all %}
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-1">
+                            <div class="body-data about-skill-data center">{{ skill.name }}</div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="about" id="contact-box">
+                <p class="about-title">Contact</p>
+                <div class="col pt-3">
+                    <form method="post" action="https://test.disink.com/">
+                        {{ comment_form | crispy }}
+                        {% csrf_token %}
+                        <button class="submit-button" type="submit">Send</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="about" id="link-box">
+                <p class="about-title">Links</p>
+                <div class="col pt-3">
+                    <div class="row">
+                    {% for link in link_list %}
+                        <a class="col-6 col-sm-6 col-md-3 link" href="{{ link.url }}">
+                            <p class="link-title">{{ link.name }}</p>
+                            <div class="body-image-box">
+                                <img alt="" class="thumbnail" src="{{ link.image.url }}">
+                            </div>
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="to-top" class="circle center">
+    <div>▲</div>
+    <div>TOP</div>
+</div>
+{%endblock%}

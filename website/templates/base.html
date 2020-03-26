@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Disink Resumes&CV</title>
+
+        <script src="/static/jquery-3.4.1.min.js"></script>
+
+        <script src="/static/bootstrap-4.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/bootstrap-4.3.1/css/bootstrap.min.css">
+
+        <style type="text/css">
+            @import url(https://fonts.googleapis.com/earlyaccess/cwtexfangsong.css);
+
+            html {
+                overflow-y: overlay;
+            }
+
+            footer {
+                background: #E70;
+            }
+
+            .navbar-brand:hover {
+                color: white;
+            }
+            
+            .navbar-brand {
+                    color: white;
+            }
+
+            .navbar {
+                background: #E70;
+            }
+
+            #loading-box {
+                background: black;
+                color: #E70;
+                opacity: .9;
+                position: fixed;
+                width: 100vw;
+                height: 100vh;
+                z-index: 9999;
+            }
+
+            .hamburger-icon {
+                color:white;
+            }
+
+            .spinner-border {
+                width: 10vw;
+                height: 10vw;
+            }
+
+            #loading-text {
+                position: absolute;
+            }
+
+            @media(max-width:767px) {
+                .navbar-brand {
+                    font-size: 48px;
+                    font-family: monospace;
+                }
+
+                .navbar-collapse {
+                    font-size: 32px;
+                }
+
+                .spinner-border {
+                    width: 25vw;
+                    height: 25vw;
+                }
+
+                #loading-text {font-size:4.5vw}
+            }
+
+            @media(min-width:768px) {
+                .navbar-brand {
+                    font-size: 40px;
+                    font-family: monospace;
+                }
+
+                .navbar-collapse {
+                    font-size: 32px;
+                }
+
+                .spinner-border {
+                    width: 25vw;
+                    height: 25vw;
+                }
+
+                #loading-text {font-size:4.5vw}
+            }
+
+            @media(min-width:992px) {
+                .navbar-brand {
+                    font-size: 32px;
+                    font-family: monospace;
+                }
+
+                .navbar-collapse {
+                    font-size: 20px;
+                }
+
+                .spinner-border {
+                    width: 10vw;
+                    height: 10vw;
+                }
+
+                #loading-text {font-size:1.5vw}
+            }
+
+            @media(min-width:1200px) {
+                .navbar-brand {
+                    font-size: 30px;
+                    font-family: monospace;
+                }
+
+                .navbar-collapse {
+                    font-size: 18px;
+                }
+            }
+        </style>
+        <script type="text/javascript">
+            window.addEventListener('load', function () {
+                $('#loading-box').delay( 500 ).fadeOut( 600 );
+            });
+        </script>
+
+    </head>
+    <body >
+
+    <div id="loading-box">
+        <div class="d-flex height-vh center">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <span id="loading-text">Loading...</span>
+        </div>
+    </div>
+
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top p-0" id="mainNav">
+            <div class="container-fluid col-11 col-sm-11 col-md-11 col-lg-12 col-xl-12">
+                <a class="navbar-brand" href="{% url 'home' %}">Disink</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <div class="hamburger-icon">
+                        <svg style="fill: currentColor;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="32px" id="Layer_1" style="enable-background:new 0 0 32 32;" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve"><path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/></svg>
+                    </div>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item text-black">
+                            <a class="nav-link text-white font-weight-bold" href="#work">WORK</a>
+                        </li>
+                        <li class="nav-item text-black">
+                            <a class="nav-link text-white font-weight-bold" href="#skill">SKILL</a>
+                        </li>
+                        <li class="nav-item text-black">
+                            <a class="nav-link text-white font-weight-bold" href="#contact">CONTACT</a>
+                        </li>
+                        <li class="nav-item text-black">
+                            <a class="nav-link text-white font-weight-bold" href="#link">LINK</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        {% block content %}
+        <!-- Content Goes here -->
+        {% endblock content %}
+        <!-- Footer -->
+        <footer class="py-3" >
+            <p class="m-0 text-dark text-center ">Copyright &copy; Django Bootstrap Jquery</p>
+        </footer>
+    </body>
+</html>
