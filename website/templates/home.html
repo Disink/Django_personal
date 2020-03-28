@@ -69,6 +69,7 @@
         width: 90%;
         background: #E70;
         color: white;
+        border: 5px solid black;
         border-radius:100%;
         transition: .5s;
         overflow: hidden;
@@ -306,28 +307,15 @@
 
 <script type="text/javascript">
     window.addEventListener('load', function() {
+        $(".about-select").click(function() {
+            let about_target = $(this).data("torget");
+            $("html, body").animate({
+                'scrollTop':   $(about_target + "-box").offset().top - $(".navbar").height() + 1
+            }, 600);
 
-        let hashtag = window.location.hash;
-        if (hashtag){
-            $(hashtag+ "-box").slideDown( 1000 );
-            $(hashtag + "-select").addClass("active");
-        }
+        })
 
-        $(window).bind('hashchange', function() {
-            let new_hashtag = window.location.hash;
-
-            if (new_hashtag != hashtag) {
-                $("html, body").animate({
-                    'scrollTop':   $(new_hashtag + "-box").offset().top - $(".navbar").height() + 1
-                }, 600);
-
-                $(".about-select").removeClass("active");
-                $(new_hashtag + "-select").addClass("active");
-                hashtag = new_hashtag;
-            }
-        });
-
-        $("#to-top").click(function(){
+        $("#to-top").click(function() {
                 $("html, body").animate({
                     'scrollTop': 0
                 }, 600);
@@ -363,7 +351,14 @@
 
             <div id="right-box" class="col-md-12 col-lg-9 col-xl-9 right-box container py-3">
                 {{ head_right_article | safe}}
-                {{ head_right_select | safe}}
+                <div class="col-md-10 col-lg-10 col-xl-10 container about-select-box py-3">
+                    <div class="row">
+                    <div class="col p-0 center"><div class="about-select center" data-torget="#work" id="work-select">WORK</div></div>
+                    <div class="col p-0 center"><div class="about-select center" data-torget="#skill" id="skill-select">SKILL</div></div>
+                    <div class="col p-0 center"><div class="about-select center" data-torget="#contact" id="contact-select">CONTACT</div></div>
+                    <div class="col p-0 center"><div class="about-select center" data-torget="#link" id="link-select">LINK</div></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
