@@ -15,6 +15,10 @@
                 overflow-y: overlay;
             }
 
+            .bg-black {
+                background: black;
+            }
+
             footer {
                 background: #E70;
             }
@@ -126,16 +130,16 @@
         </script>
 
     </head>
-    <body >
+    <body class="bg-black">
 
-    <div id="loading-box">
-        <div class="d-flex height-vh center">
-            <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
+        <div id="loading-box">
+            <div class="d-flex height-vh center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <span id="loading-text">Loading...</span>
             </div>
-            <span id="loading-text">Loading...</span>
         </div>
-    </div>
 
         <nav class="navbar navbar-expand-lg navbar-dark sticky-top p-0" id="mainNav">
             <div class="container-fluid col-11 col-sm-11 col-md-11 col-lg-12 col-xl-12">

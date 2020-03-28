@@ -53,44 +53,41 @@
     }
 
     .about {
-        display: none;
         order:0;
+            margin-top: 15vh;
     }
 
-    .about.active {order:1;}
 
     .left-image-box {
         background: white;
-        border: 15px double #E70;
+        border: 3px solid #E70;
         border-radius: 100%;
         overflow: hidden;
     }
 
     #to-top {
         width: 90%;
-        background: black;
+        background: #E70;
         color: white;
         border-radius:100%;
         transition: .5s;
         overflow: hidden;
         position: fixed;
-        right: 1vh;
+        right: 1vw;
         bottom: 1vh;
         flex-flow: column;
     }
 
     #head-box {
-        background: black;
+    background: url("{{ head_background.url }}");
         background-size: cover;
         min-height:100vh;
     }
 
     #body-box {
-        display: none;
-        background: #E70;
         min-height: 100vh;
     }
-
+/*
     #about-box {
         border: 5vw solid black;
         display: flex;
@@ -98,6 +95,7 @@
         background: black;
         border-radius: 10px;
     }
+    */
 
     .head-title {color: white;}
     .head-content { color: white; font-family: cwTeXFangSong;}
@@ -145,7 +143,7 @@
     .body-image-box {
         background: white;
         border: 2px solid #E70;
-        border-radius: 15px;
+        border-radius: 100%;
         overflow: hidden;
     }
 
@@ -255,7 +253,7 @@
         .about-select{font-size: 1.5vw;}
         .form-group {font-size: 1.5vw;}
     
-        .head-title {font-size:8vw;}
+        .head-title {font-size:7.5vw;}
         .head-content {font-size:3vw;}
     
         .body-title {font-size:3.5vw;}
@@ -264,7 +262,7 @@
     
         .link-title {font-size:3.5vw;}
     
-        .about-title {font-size:4vw; text-align: unset;}
+        .about-title {font-size:4vw; text-align: center;}
     
         .about-work-more-link {font-size:2vw;}
 
@@ -311,9 +309,7 @@
 
         let hashtag = window.location.hash;
         if (hashtag){
-                $("#body-box").show();
             $(hashtag+ "-box").slideDown( 1000 );
-            $(hashtag + "-box").addClass("active");
             $(hashtag + "-select").addClass("active");
         }
 
@@ -321,14 +317,8 @@
             let new_hashtag = window.location.hash;
 
             if (new_hashtag != hashtag) {
-                $("#body-box").show();
-                $(".about").slideUp( 600 );
-                $(".about").removeClass("active");
-                $(new_hashtag + "-box").slideDown(1200, function(){});
-                $(new_hashtag + "-box").addClass("active");
-
                 $("html, body").animate({
-                    'scrollTop':   $("#body-box").offset().top - $(".navbar").height() + 1
+                    'scrollTop':   $(new_hashtag + "-box").offset().top - $(".navbar").height() + 1
                 }, 600);
 
                 $(".about-select").removeClass("active");
@@ -363,98 +353,98 @@
     });
 </script>
 <div id="head-box" class="center">
-<div class="container col-sm-10 col-md-10 col-lg-10 col-xl-10">
-    <div class="row">
-        <div id="left-box" class="col-4 col-sm-4 col-md-8 col-lg-5 col-xl-4 container center pt-2">
-            <div class="left-image-box">
-                <img alt="" class="thumbnail" src="{{ head_left_image.url }}">
+    <div class="container col-sm-10 col-md-10 col-lg-8 col-xl-8">
+        <div class="row">
+            <div id="left-box" class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-3 container center pt-2">
+                <div class="left-image-box">
+                    <img alt="" class="thumbnail" src="{{ head_left_image.url }}">
+                </div>
+            </div>
+
+            <div id="right-box" class="col-md-12 col-lg-9 col-xl-9 right-box container py-3">
+                {{ head_right_article | safe}}
+                {{ head_right_select | safe}}
             </div>
         </div>
-
-        <div id="right-box" class="col-md-12 col-lg-7 col-xl-8 right-box container py-3">
-            {{ head_right_article | safe}}
-            {{ head_right_select | safe}}
-        </div>
     </div>
-</div>
 </div>
 
 
 <div id="body-box">
-<div class="container col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
+    <div class="container col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
 
-    <div class="row">
-        <div id="about-box" class=" col container my-5">
+        <div class="row">
+            <div id="about-box" class="col container my-5">
 
-            <div class="about" id="work-box">
-                <p class="about-title">Works</p>
-                <div class="col pt-3">
-                    <ul class="list-group list-group-flush">
-                        {% for work in work_list %}
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <p class="body-title">{{ work.name }}</p>
-                                        <p class="body-content">{{ work.content }}</p>
-                                        <div class="about-work-more-box"><a class="about-work-more-link" href="{{ work.url }}">more...</a></div>
-                                    </div>
-                                    <div class="col-3 p-0">
-                                        <div class="body-image-box center">
-                                            <img alt="" class="thumbnail" src="{{ work.image.url }}">
+                <div class="about" id="work-box">
+                    <p class="about-title">Works</p>
+                    <div class="col pt-3">
+                        <ul class="list-group list-group-flush">
+                            {% for work in work_list %}
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <p class="body-title">{{ work.name }}</p>
+                                            <p class="body-content">{{ work.content }}</p>
+                                            <div class="about-work-more-box"><a class="about-work-more-link" href="{{ work.url }}">more...</a></div>
+                                        </div>
+                                        <div class="col-3 p-0">
+                                            <div class="body-image-box center">
+                                                <img alt="" class="thumbnail" src="{{ work.image.url }}">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
-            <div class="about" id="skill-box">
-                <p class="about-title">Skills</p>
-                {% for skill_group in skill_group_list %}
-                    <p class="body-title">{{ skill_group.title }}</p>
-                    <p class="body-content">{{ skill_group.description }}</p>
-                    <div class="row m-0">
-                    {% for skill in skill_group.skills.all %}
-                        <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-1">
-                            <div class="body-data about-skill-data center">{{ skill.name }}</div>
+                <div class="about" id="skill-box">
+                    <p class="about-title">Skills</p>
+                    {% for skill_group in skill_group_list %}
+                        <p class="body-title">{{ skill_group.title }}</p>
+                        <p class="body-content">{{ skill_group.description }}</p>
+                        <div class="row m-0">
+                        {% for skill in skill_group.skills.all %}
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-1">
+                                <div class="body-data about-skill-data center">{{ skill.name }}</div>
+                            </div>
+                        {% endfor %}
                         </div>
                     {% endfor %}
-                    </div>
-                {% endfor %}
-            </div>
-
-            <div class="about" id="contact-box">
-                <p class="about-title">Contact</p>
-                <div class="col pt-3">
-                    <form method="post" action="https://test.disink.com/">
-                        {{ comment_form | crispy }}
-                        {% csrf_token %}
-                        <button class="submit-button" type="submit">Send</button>
-                    </form>
                 </div>
-            </div>
 
-            <div class="about" id="link-box">
-                <p class="about-title">Links</p>
-                <div class="col pt-3">
-                    <div class="row">
-                    {% for link in link_list %}
-                        <a class="col-6 col-sm-6 col-md-3 link" href="{{ link.url }}">
-                            <p class="link-title">{{ link.name }}</p>
-                            <div class="body-image-box">
-                                <img alt="" class="thumbnail" src="{{ link.image.url }}">
-                            </div>
-                        </a>
-                    {% endfor %}
+                <div class="about" id="contact-box">
+                    <p class="about-title">Contact</p>
+                    <div class="col pt-3">
+                        <form method="post" action="https://test.disink.com/">
+                            {{ comment_form | crispy }}
+                            {% csrf_token %}
+                            <button class="submit-button" type="submit">Send</button>
+                        </form>
                     </div>
                 </div>
-            </div>
 
+                <div class="about" id="link-box">
+                    <p class="about-title">Links</p>
+                    <div class="col pt-3">
+                        <div class="row">
+                        {% for link in link_list %}
+                            <a class="col-6 col-sm-6 col-md-3 link" href="{{ link.url }}">
+                                <p class="link-title">{{ link.name }}</p>
+                                <div class="body-image-box">
+                                    <img alt="" class="thumbnail" src="{{ link.image.url }}">
+                                </div>
+                            </a>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 <div id="to-top" class="circle center">

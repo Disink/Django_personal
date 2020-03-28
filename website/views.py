@@ -20,6 +20,7 @@ def home_page(request):
     head_right_article = Article.objects.get(title='head-right-article').content
     head_right_select = Article.objects.get(title='head-right-select').content
     head_left_image = Image.objects.get(name='head-left-image').image
+    head_background = Image.objects.get(name='head-background').image
 
     contact_form = ContactForm()
 
@@ -34,6 +35,7 @@ def home_page(request):
                                           'work_list': work_list,
                                           'link_list': link_list,
                                           'head_left_image': head_left_image,
+                                          'head_background': head_background,
                                           'head_right_article': head_right_article,
                                           'head_right_select': head_right_select,
                                           'comment_form': contact_form,})
