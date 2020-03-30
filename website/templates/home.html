@@ -80,8 +80,9 @@
     }
 
     #head-box {
-    background: url("{{ head_background.url }}");
+        background: url("{{ head_background.url }}");
         background-size: cover;
+        background-position: center;
         min-height:100vh;
     }
 
@@ -338,9 +339,22 @@
         });
 
 
+        let scroll_bg_list = document.querySelectorAll(".scroll-bg")
+        let speed = 0.5;
+
+        window.onscroll = function(){
+            [].slice.call(scroll_bg_list).forEach(function(el,i){
+                let page_position = $(document).scrollTop()
+                let scroll_bg_position = "50% " + (page_position * speed) + "px";
+                el.style.backgroundPosition = scroll_bg_position;
+            });
+        };
+
+
+
     });
 </script>
-<div id="head-box" class="center">
+<div id="head-box" class="center scroll-bg">
     <div class="container col-sm-10 col-md-10 col-lg-8 col-xl-8">
         <div class="row">
             <div id="left-box" class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-3 container center pt-2">
