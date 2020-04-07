@@ -28,6 +28,7 @@
         border-radius:10px;
         transition: .5s;
         overflow: hidden;
+        cursor: pointer;
     }
 
     .about-select:hover {
@@ -55,7 +56,11 @@
 
     .about {
         order:0;
-            margin-top: 15vh;
+        padding-bottom: 15vh;
+        background: url(/media/public_image/writing_desk.png);
+        background-size: cover;
+        background-position: center 0px;
+        min-height: 100vh;
     }
 
 
@@ -70,7 +75,7 @@
         width: 90%;
         background: #E70;
         color: white;
-        border: 5px solid black;
+        border: 5px solid #222;
         border-radius:100%;
         transition: .5s;
         overflow: hidden;
@@ -83,7 +88,7 @@
     #head-box {
         background: url("{{ head_background.url }}");
         background-size: cover;
-        background-position: center;
+        background-position: 50% 0px;
         min-height:100vh;
     }
 
@@ -91,13 +96,17 @@
         min-height: 100vh;
     }
 
-    .head-title {color: white;}
+    .head-title {color: white;
+        font-family: LuloCleanW01-OneBold
+    }
     .head-content { color: white; font-family: cwTeXFangSong;}
 
     .about-title {color: white;}
     .about-title:first-letter {color: #E70;}
 
-    .body-title {color: white;}
+    .body-title {color: white;
+        font-family: LuloCleanW01-OneBold;
+    }
     .body-title:first-letter {color: #E70;}
     .body-content {color: white; font-family: cwTeXFangSong;}
     .body-data {color: white;}
@@ -109,6 +118,7 @@
         background: #E70;
         border-radius: 10px;
         width: 100%;
+        transition: .5s;
     }
 
     .about-work-more-box {text-align: left;}
@@ -120,7 +130,7 @@
         text-decoration: underline;
     }
 
-    .about-skill-data:hover {background: #C50;}
+    .about-skill-data:hover {background: #222;}
     
     .submit-button {
         background: #E70;
@@ -133,7 +143,7 @@
     }
 
     .submit-button:hover {
-        background: #C50;
+        background: #222;
         padding: 10px;
     }
 
@@ -158,9 +168,8 @@
         }
 
     .link:hover {
-        background: #222;
+        background: rgba(0, 0, 0, 0.5);
         border-radius: 10px;
-        padding: 10px;
     }
 
     @media(max-width:767px){
@@ -350,7 +359,7 @@ button:focus {outline:0;}
 
 <script type="text/javascript">
     window.addEventListener('load', function() {
-        $(".about-select").click(function() {
+        $(".nav-select, .about-select").click(function() {
             let about_target = $(this).data("torget");
             $("html, body").animate({
                 'scrollTop':   $(about_target + "-box").offset().top - $(".navbar").height() + 1
@@ -384,14 +393,39 @@ button:focus {outline:0;}
         let scroll_bg_list = document.querySelectorAll(".scroll-bg")
         let speed = 0.5;
 
+
+            [].slice.call(scroll_bg_list).forEach(function(el,i){
+                let page_position = $(document).scrollTop();
+                let scroll_offset = page_position - el.offsetTop + 55;
+                let scroll_bg_position = "center " + (scroll_offset * speed) + "px";
+                el.style.backgroundPosition = scroll_bg_position;
+            });
+
         window.onscroll = function(){
             [].slice.call(scroll_bg_list).forEach(function(el,i){
-                let page_position = $(document).scrollTop()
-                let scroll_bg_position = "50% " + (page_position * speed) + "px";
+                let page_position = $(document).scrollTop();
+                let scroll_offset = page_position - el.offsetTop + 55;
+                let scroll_bg_position = "center " + (scroll_offset * speed) + "px";
                 el.style.backgroundPosition = scroll_bg_position;
             });
         };
 
+/*
+        $(window).scroll(function() {
+            $(".scroll-bg").each(function(i, el){
+                let top_offset = $(el).offset().top - $(document).scrollTop() - $(".navbar").height();
+                let bottom_offset = $(el).offset().top - $(document).scrollTop() + $(el).height() - $(".navbar").height();
+                let el_view_range = $(el).height() + $(window).height();
+                let el_view_percentage = 100 - (bottom_offset / el_view_range *100);
+                //el_view_percentage = String(el_view_percentage).split(".")[0];
+                if (el_view_percentage >= 0) {
+                    console.log(100 - (bottom_offset / el_view_range * 100));
+                }
+                let scroll_bg_position = "50% " + (Number(100) + Number(el_view_percentage*2)) + "%";
+                $(el).css("background-position", scroll_bg_position);
+            });
+        });
+*/
 
 $('.owl-carousel').owlCarousel({
     loop:true,
@@ -403,7 +437,7 @@ $('.owl-carousel').owlCarousel({
             items:1
         },
         768:{
-            items:3
+            items:2
         },
         992:{
             items:4
@@ -440,29 +474,53 @@ $('.owl-carousel').owlCarousel({
 
 
 <div id="body-box">
-    <div class="container col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
 
-        <div class="row">
-            <div id="about-box" class="col container my-5">
-
-                <div class="about" id="work-box">
-                    <p class="about-title">Works</p>
-                    <div class="owl-carousel owl-theme">
-                        {% for work in work_list %}
-                            <div class="item">
-                                <div class="body-image-box center">
-                                    <img alt="" class="thumbnail" src="{{ work.image.url }}">
+<!--
+                <div class="about center scroll-bg" id="work-box">
+                    <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
+                        <p class="about-title">Works</p>
+                        <div class="owl-carousel owl-theme">
+                            {% for work in work_list %}
+                                <div class="item">
+                                    <div class="body-image-box center">
+                                        <img alt="" class="thumbnail" src="{{ work.image.url }}">
+                                    </div>
+                                    <p class="work-title pt-5">{{ work.name }}</p>
+                                    <p class="body-content">{{ work.content }}</p>
+                                    <div class="about-work-more-box"><a class="about-work-more-link" href="{{ work.url }}">more...</a></div>
                                 </div>
-                                <p class="work-title pt-5">{{ work.name }}</p>
-                                <p class="body-content">{{ work.content }}</p>
-                                <div class="about-work-more-box"><a class="about-work-more-link" href="{{ work.url }}">more...</a></div>
-                            </div>
-                        {% endfor %}
-                        
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+-->
+
+                <div class="about center scroll-bg" id="work-box">
+                    <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
+                        <p class="about-title">Works</p>
+                        <div>
+                            {% for work in work_list %}
+                                <div>
+                                    <div class="row">
+                                        <div class="col-2 center">
+                                            <div class="body-image-box center">
+                                                <img alt="" class="thumbnail" src="{{ work.image.url }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-9">
+                                            <p class="work-title pt-5">{{ work.name }}</p>
+                                            <p class="body-content">{{ work.content }}</p>
+                                            <div class="about-work-more-box"><a class="about-work-more-link" href="{{ work.url }}">more...</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
 
-                <div class="about" id="skill-box">
+                <div class="about center scroll-bg" id="skill-box">
+                    <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
                     <p class="about-title">Skills</p>
                     {% for skill_group in skill_group_list %}
                         <p class="body-title">{{ skill_group.title }}</p>
@@ -475,38 +533,40 @@ $('.owl-carousel').owlCarousel({
                         {% endfor %}
                         </div>
                     {% endfor %}
-                </div>
-
-                <div class="about" id="contact-box">
-                    <p class="about-title">Contact</p>
-                    <div class="col pt-3">
-                        <form method="post">
-                            {{ comment_form | crispy }}
-                            {% csrf_token %}
-                            <button class="submit-button" type="submit">Send</button>
-                        </form>
                     </div>
                 </div>
 
-                <div class="about" id="link-box">
-                    <p class="about-title">Links</p>
-                    <div class="col pt-3">
-                        <div class="row">
-                        {% for link in link_list %}
-                            <a class="col-6 col-sm-6 col-md-3 link center" href="{{ link.url }}">
-                                <p class="link-title">{{ link.name }}</p>
-                                <div class="body-image-box">
-                                    <img alt="" class="thumbnail" src="{{ link.image.url }}">
-                                </div>
-                            </a>
-                        {% endfor %}
+                <div class="about center scroll-bg" id="contact-box">
+                    <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
+                        <p class="about-title">Contact</p>
+                        <div class="col pt-3">
+                            <form method="post">
+                                {{ comment_form | crispy }}
+                                {% csrf_token %}
+                                <button class="submit-button" type="submit">Send</button>
+                            </form>
                         </div>
                     </div>
                 </div>
 
-            </div>
-        </div>
-    </div>
+                <div class="about center scroll-bg" id="link-box">
+                    <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
+                        <p class="about-title">Links</p>
+                        <div class="col pt-3">
+                            <div class="row">
+                            {% for link in link_list %}
+                                <a class="col-6 col-sm-6 col-md-3 link center" href="{{ link.url }}">
+                                    <p class="link-title">{{ link.name }}</p>
+                                    <div class="body-image-box">
+                                        <img alt="" class="thumbnail" src="{{ link.image.url }}">
+                                    </div>
+                                </a>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 </div>
 
 <div id="to-top" class="circle center">

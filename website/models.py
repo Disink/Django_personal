@@ -55,7 +55,7 @@ class Article(OrderedModel):
 
 class Image(models.Model):
     name = models.CharField(max_length=80)
-    image = models.ImageField(upload_to='public_image')
+    image = models.FileField(upload_to='public_image')
 
     def __str__(self):
         return self.name

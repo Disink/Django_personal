@@ -14,6 +14,15 @@
 
         <style type="text/css">
             @import url(https://fonts.googleapis.com/earlyaccess/cwtexfangsong.css);
+            @font-face {
+                font-family: 'LuloCleanW01-OneBold';
+                src: url('/static/font/LuloCleanW01-OneBold.woff2') format('woff2'),
+                url('/static/lulo/font/CleanW01-OneBold.woff') format('woff');
+                font-weight: bold;
+                font-style: normal;
+            }
+
+
 
             html {
                 overflow-y: overlay;
@@ -60,6 +69,10 @@
 
             #loading-text {
                 position: absolute;
+            }
+
+            .nav-select {
+                cursor: pointer;
             }
 
             @media(max-width:767px) {
@@ -157,16 +170,16 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item text-black">
-                            <a class="nav-link text-white font-weight-bold" href="#work">WORK</a>
+                            <a class="nav-link text-white font-weight-bold nav-select" data-torget="#work">WORK</a>
                         </li>
                         <li class="nav-item text-black">
-                            <a class="nav-link text-white font-weight-bold" href="#skill">SKILL</a>
+                            <a class="nav-link text-white font-weight-bold nav-select" data-torget="#skill">SKILL</a>
                         </li>
                         <li class="nav-item text-black">
-                            <a class="nav-link text-white font-weight-bold" href="#contact">CONTACT</a>
+                            <a class="nav-link text-white font-weight-bold nav-select" data-torget="#contact">CONTACT</a>
                         </li>
                         <li class="nav-item text-black">
-                            <a class="nav-link text-white font-weight-bold" href="#link">LINK</a>
+                            <a class="nav-link text-white font-weight-bold nav-select" data-torget="#link">LINK</a>
                         </li>
                     </ul>
                 </div>
