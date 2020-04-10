@@ -1,7 +1,7 @@
 
 from django.shortcuts import render
 
-from website.models import SkillGroup
+from website.models import Skill
 from website.models import Work
 from website.models import Link
 from website.models import Article
@@ -13,7 +13,7 @@ from website.lines import send
 
 # Create your views here.
 def home_page(request):
-    skill_group_list = SkillGroup.objects.all()
+    skill_list = Skill.objects.all()
     work_list = Work.objects.all()
     link_list = Link.objects.all()
 
@@ -31,7 +31,7 @@ def home_page(request):
             contact_form.save()
             send(request.POST)
 
-    return render(request, 'home.html', {'skill_group_list': skill_group_list,
+    return render(request, 'home.html', {'skill_list': skill_list,
                                           'work_list': work_list,
                                           'link_list': link_list,
                                           'head_left_image': head_left_image,

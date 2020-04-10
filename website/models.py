@@ -1,21 +1,12 @@
 from django.db import models
 from ordered_model.models import OrderedModel
 
-class SkillGroup(OrderedModel):
+class Skill(OrderedModel):
     title = models.CharField(max_length=200, unique=True)
     description = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title
-
-
-class Skill(OrderedModel):
-    skill_group = models.ForeignKey(SkillGroup, on_delete= models.CASCADE, related_name='skills')
-    name =  models.CharField(max_length=200, unique=True)
-
-    def __str__(self):
-        return self.name
-
 
 
 class Work(OrderedModel):

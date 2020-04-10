@@ -8,9 +8,9 @@
 
     .thumbnail-6 {width: 60%;}
 
-    .text-orange {color: #E70;}
+    .text-orange {color: #FA6;}
 
-    .bg-orange {background: #E70;}
+    .bg-orange {background: #FA6;}
 
     .square {
         border: 1px solid black;
@@ -23,7 +23,7 @@
 
     .about-select {
         width: 90%;
-        background: #E70;
+        background: #FA6;
         color: white;
         border-radius:10px;
         transition: .5s;
@@ -45,6 +45,12 @@
         flex-flow: column;
     }
 
+    .vertical-center {
+        justify-content: center;
+        display: flex;
+        flex-flow: column;
+    }
+
     .fill-up:before{
         content: "";
         padding-top: 100%;
@@ -56,7 +62,6 @@
 
     .about {
         order:0;
-        padding-bottom: 15vh;
         background: url(/media/public_image/writing_desk.png);
         background-size: cover;
         background-position: center 0px;
@@ -66,16 +71,16 @@
 
     .left-image-box {
         background: white;
-        border: 3px solid #E70;
+        border: 3px solid #FA6;
         border-radius: 100%;
         overflow: hidden;
     }
 
     #to-top {
         width: 90%;
-        background: #E70;
+        background: #FA6;
         color: white;
-        border: 5px solid #222;
+        border: 5px solid #666;
         border-radius:100%;
         transition: .5s;
         overflow: hidden;
@@ -97,25 +102,34 @@
     }
 
     .head-title {color: white;
-        font-family: LuloCleanW01-OneBold
+        font-family: LuloCleanW01-OneBold;
     }
     .head-content { color: white; font-family: cwTeXFangSong;}
 
-    .about-title {color: white;}
-    .about-title:first-letter {color: #E70;}
+    .about-title {color: white; font-family: LuloCleanW01-OneBold;}
+    .about-title:first-letter {color: #FA6;}
 
     .body-title {color: white;
         font-family: LuloCleanW01-OneBold;
     }
-    .body-title:first-letter {color: #E70;}
+    .body-title:first-letter {color: #FA6; font-family: LuloCleanW01-OneBold;}
     .body-content {color: white; font-family: cwTeXFangSong;}
     .body-data {color: white;}
 
     .work-title {color: white;}
-    .work-title:first-letter {color: #E70;}
+    .work-title:first-letter {color: #FA6;}
+
+    .work-url {
+        padding-bottom: 10px;
+        transition: .5s;
+        }
+    .work-url:hover {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+    }
 
     .about-skill-data {
-        background: #E70;
+        background: #FA6;
         border-radius: 10px;
         width: 100%;
         transition: .5s;
@@ -123,22 +137,23 @@
 
     .about-work-more-box {text-align: left;}
 
-    .about-work-more-link {color: #E70;}
+    .about-work-more-link {color: #FA6;}
 
     .about-work-more-link:hover {
-        color: #C50;
+        color: #222;
         text-decoration: underline;
     }
 
     .about-skill-data:hover {background: #222;}
     
     .submit-button {
-        background: #E70;
+        background: #FA6;
         border-radius: 10px;
         border: 1px;
         color: white;
         min-width: 100%;
         margin-top: 5vh;
+        margin-bottom: 5vh;
         transition: .5s;
     }
 
@@ -149,7 +164,7 @@
 
     .body-image-box {
         background: white;
-        border: 2px solid #E70;
+        border: 2px solid #FA6;
         border-radius: 100%;
         overflow: hidden;
         width: 80%;
@@ -160,12 +175,12 @@
         text-align: center;
     }
 
-    .link-title:first-letter {color: #E70;}
+    .link-title:first-letter {color: #FA6;}
     
     .link {
         padding-bottom: 10px;
         transition: .5s;
-        }
+    }
 
     .link:hover {
         background: rgba(0, 0, 0, 0.5);
@@ -244,7 +259,7 @@
         .body-content {font-size:3.2vw;}
         .body-data {font-size:3vw;}
 
-        .work-title {font-size:3vw;}
+        .work-title {font-size:6vw;}
 
         .link-title {font-size:4vw;}
 
@@ -253,6 +268,8 @@
         .about-work-more-link {font-size:3vw;}
 
         .submit-button {font-size: 2.6vw}
+
+        .requiredField {font-size: 5vw;}
 
         .owl-carousel .owl-nav button.owl-prev .nav-btn{font-size: 3vw;}
         .owl-carousel .owl-nav button.owl-next .nav-btn{font-size: 3vw;}
@@ -276,7 +293,7 @@
         .body-content {font-size:2vw;}
         .body-data {font-size:1.8vw;}
 
-        .work-title {font-size:2vw;}
+        .work-title {font-size:4vw;}
 
         .link-title {font-size:3.5vw;}
 
@@ -286,8 +303,7 @@
 
         .submit-button {font-size: 1.5vw}
 
-        .owl-carousel .owl-nav button.owl-prev .nav-btn{font-size: 1.5vw;}
-        .owl-carousel .owl-nav button.owl-next .nav-btn{font-size: 1.5vw;}
+        .requiredField {font-size: 2vw;}
 
         #to-top {font-size:2vw;}
         #to-top {
@@ -322,39 +338,9 @@
 
     .requiredField {color: white;}
 
-    .requiredField:first-letter {color: #E70;}
+    .requiredField:first-letter {color: #FA6;}
 
-    .owl-carousel .owl-nav {
-        align-items: center;
-        justify-content: center;
-        display: flex;
-        flex-flow: inherit;
-    }
-
-    .owl-carousel .owl-nav button.owl-prev {
-        background: #E70;
-        border-radius: 15px 0px 0px 15px;
-        color: white;
-        margin: 5px;
-    }
-
-    .owl-carousel .owl-nav button.owl-prev .nav-btn{
-        margin-left: 5vw;
-        margin-right: 5vw;
-    }
-
-    .owl-carousel .owl-nav button.owl-next {
-        background: #E70;
-        border-radius: 0px 15px 15px 0px;
-        color: white;
-        margin: 5px;
-    }
-
-    .owl-carousel .owl-nav button.owl-next .nav-btn{
-        margin-left: 5vw;
-        margin-right: 5vw;
-    }
-button:focus {outline:0;}
+    button:focus {outline:0;}
 </style>
 
 <script type="text/javascript">
@@ -475,44 +461,25 @@ $('.owl-carousel').owlCarousel({
 
 <div id="body-box">
 
-<!--
-                <div class="about center scroll-bg" id="work-box">
-                    <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
-                        <p class="about-title">Works</p>
-                        <div class="owl-carousel owl-theme">
-                            {% for work in work_list %}
-                                <div class="item">
-                                    <div class="body-image-box center">
-                                        <img alt="" class="thumbnail" src="{{ work.image.url }}">
-                                    </div>
-                                    <p class="work-title pt-5">{{ work.name }}</p>
-                                    <p class="body-content">{{ work.content }}</p>
-                                    <div class="about-work-more-box"><a class="about-work-more-link" href="{{ work.url }}">more...</a></div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
--->
-
                 <div class="about center scroll-bg" id="work-box">
                     <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
                         <p class="about-title">Works</p>
                         <div>
                             {% for work in work_list %}
                                 <div>
+                                    <a class="work-url center" href="{{ work.url }}">
                                     <div class="row">
-                                        <div class="col-2 center">
+                                        <div class="col-3 center p-5">
                                             <div class="body-image-box center">
                                                 <img alt="" class="thumbnail" src="{{ work.image.url }}">
                                             </div>
                                         </div>
-                                        <div class="col-9">
-                                            <p class="work-title pt-5">{{ work.name }}</p>
+                                        <div class="col-9 vertical-center">
+                                            <p class="work-title">{{ work.name }}</p>
                                             <p class="body-content">{{ work.content }}</p>
-                                            <div class="about-work-more-box"><a class="about-work-more-link" href="{{ work.url }}">more...</a></div>
                                         </div>
                                     </div>
+                                    </a>
                                 </div>
                             {% endfor %}
                         </div>
@@ -522,16 +489,9 @@ $('.owl-carousel').owlCarousel({
                 <div class="about center scroll-bg" id="skill-box">
                     <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
                     <p class="about-title">Skills</p>
-                    {% for skill_group in skill_group_list %}
-                        <p class="body-title">{{ skill_group.title }}</p>
-                        <p class="body-content">{{ skill_group.description }}</p>
-                        <div class="row m-0">
-                        {% for skill in skill_group.skills.all %}
-                            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-1">
-                                <div class="body-data about-skill-data center">{{ skill.name }}</div>
-                            </div>
-                        {% endfor %}
-                        </div>
+                    {% for skill in skill_list %}
+                        <p class="body-title">{{ skill.title }}</p>
+                        <p class="body-content">{{ skill.description }}</p>
                     {% endfor %}
                     </div>
                 </div>

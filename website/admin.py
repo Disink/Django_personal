@@ -1,6 +1,5 @@
 from django.contrib import admin
 from ordered_model.admin import OrderedModelAdmin
-from website.models import SkillGroup
 from website.models import Skill
 from website.models import Work
 from website.models import Contact
@@ -10,15 +9,8 @@ from website.models import Article
 from website.models import Image
 
 
-class SkillGroupAdmin(OrderedModelAdmin):
-    list_display = ['title', 'move_up_down_links']
-
-admin.site.register(SkillGroup, SkillGroupAdmin)
-
-
 class SkillAdmin(OrderedModelAdmin):
-    list_display = ['name', 'skill_group', 'move_up_down_links']
-    list_filter = ("skill_group",)
+    list_display = ['title', 'move_up_down_links']
 
 admin.site.register(Skill, SkillAdmin)
 
