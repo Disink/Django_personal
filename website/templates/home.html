@@ -113,7 +113,14 @@
         font-family: LuloCleanW01-OneBold;
     }
     .body-title:first-letter {color: #FA6; font-family: LuloCleanW01-OneBold;}
-    .body-content {color: white; font-family: cwTeXFangSong;}
+    .body-content {
+        color: white;
+        font-family:cwTeXFangSong;
+        background: #FA6;
+        border-radius: 15px;
+        padding: 10px;
+        margin: 15px;
+    }
     .body-data {color: white;}
 
     .work-title {color: white;}
@@ -444,7 +451,19 @@ $('.owl-carousel').owlCarousel({
             </div>
 
             <div id="right-box" class="col-md-12 col-lg-9 col-xl-9 right-box container py-3">
-                {{ head_right_article | safe}}
+                <div class="col container pb-1">
+                    <p class="head-title pb-5">
+                    <span class="text-orange">H</span>I
+                    <span class="text-orange">I'</span>M
+                    <span class="text-orange">R</span>AY
+                    <span class="text-orange">!</span>
+                    </p>
+
+                    <p class="head-content">
+                    <span class="text-orange">維運</span>與<span class="text-orange">網頁全端</span>工程師
+                    </p>
+                </div>
+
                 <div class="col-md-10 col-lg-10 col-xl-10 container about-select-box py-3">
                     <div class="row">
                     <div class="col p-0 center"><div class="about-select center" data-torget="#work" id="work-select">WORK</div></div>
@@ -469,7 +488,7 @@ $('.owl-carousel').owlCarousel({
                                 <div>
                                     <a class="work-url center" href="{{ work.url }}">
                                     <div class="row">
-                                        <div class="col-3 center p-5">
+                                        <div class="col-3 center">
                                             <div class="body-image-box center">
                                                 <img alt="" class="thumbnail" src="{{ work.image.url }}">
                                             </div>

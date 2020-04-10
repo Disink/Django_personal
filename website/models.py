@@ -36,13 +36,6 @@ class Link(OrderedModel):
     def __str__(self):
         return self.name
 
-class Article(OrderedModel):
-    title = models.CharField(max_length=80)
-    content = models.TextField()
-
-    def __str__(self):
-        return self.title
-
 
 class Image(models.Model):
     name = models.CharField(max_length=80)

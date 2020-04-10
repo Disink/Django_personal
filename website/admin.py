@@ -5,7 +5,6 @@ from website.models import Work
 from website.models import Contact
 from website.models import Link
 from website.models import Line
-from website.models import Article
 from website.models import Image
 
 
@@ -37,12 +36,6 @@ class LineAdmin(OrderedModelAdmin):
     list_display = ['line_id', 'token']
 
 admin.site.register(Line, LineAdmin)
-
-
-class ArticleAdmin(admin.ModelAdmin):
-    list_display = ['title']
-
-admin.site.register(Article, ArticleAdmin)
 
 
 class ImageAdmin(admin.ModelAdmin):
