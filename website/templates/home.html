@@ -51,6 +51,12 @@
         flex-flow: column;
     }
 
+    .horizontal-center {
+        align-items: center;
+        display: flex;
+        flex-flow: column;
+    }
+
     .fill-up:before{
         content: "";
         padding-top: 100%;
@@ -480,7 +486,7 @@ $('.owl-carousel').owlCarousel({
 
 <div id="body-box">
 
-                <div class="about center scroll-bg" id="work-box">
+                <div class="about horizontal-center scroll-bg" id="work-box">
                     <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
                         <p class="about-title">Works</p>
                         <div>
@@ -505,7 +511,7 @@ $('.owl-carousel').owlCarousel({
                     </div>
                 </div>
 
-                <div class="about center scroll-bg" id="skill-box">
+                <div class="about horizontal-center scroll-bg" id="skill-box">
                     <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
                     <p class="about-title">Skills</p>
                     {% for skill in skill_list %}
@@ -515,7 +521,7 @@ $('.owl-carousel').owlCarousel({
                     </div>
                 </div>
 
-                <div class="about center scroll-bg" id="contact-box">
+                <div class="about horizontal-center scroll-bg" id="contact-box">
                     <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
                         <p class="about-title">Contact</p>
                         <div class="col pt-3">
@@ -528,7 +534,7 @@ $('.owl-carousel').owlCarousel({
                     </div>
                 </div>
 
-                <div class="about center scroll-bg" id="link-box">
+                <div class="about horizontal-center scroll-bg" id="link-box">
                     <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
                         <p class="about-title">Links</p>
                         <div class="col pt-3">
