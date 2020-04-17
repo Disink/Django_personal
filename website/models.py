@@ -45,6 +45,14 @@ class Image(models.Model):
         return self.name
 
 
+
+class Background(OrderedModel):
+    name = models.CharField(max_length=80)
+    image = models.FileField(upload_to='background_image')
+
+    def __str__(self):
+        return self.name
+
 class Line(models.Model):
     name = models.CharField(max_length=80)
     line_id = models.CharField(max_length=80)

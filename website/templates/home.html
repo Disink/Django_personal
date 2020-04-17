@@ -67,11 +67,26 @@
     }
 
     .about {
-        order:0;
-        background: url(/media/public_image/writing_desk.png);
         background-size: cover;
         background-position: center 0px;
         min-height: 100vh;
+    }
+
+    #work-box {
+        background: url("{{ background_list.1.image.url }}");
+        background-size: cover;
+    }
+    #skill-box {
+        background: url("{{ background_list.2.image.url }}");
+        background-size: cover;
+    }
+    #contact-box {
+        background: url("{{ background_list.3.image.url }}");
+        background-size: cover;
+    }
+    #link-box {
+        background: url("{{ background_list.4.image.url }}");
+        background-size: cover;
     }
 
 
@@ -97,7 +112,7 @@
     }
 
     #head-box {
-        background: url("{{ head_background.url }}");
+        background: url("{{ background_list.0.image.url }}");
         background-size: cover;
         background-position: 50% 0px;
         min-height:100vh;
@@ -458,8 +473,7 @@ $('.owl-carousel').owlCarousel({
 
             <div id="right-box" class="col-md-12 col-lg-9 col-xl-9 right-box container py-3">
                 <div class="col container pb-1">
-                    <p class="head-title pb-5">
-                    <span class="text-orange">H</span>I
+                    <p class="head-title">
                     <span class="text-orange">I'</span>M
                     <span class="text-orange">R</span>AY
                     <span class="text-orange">!</span>
