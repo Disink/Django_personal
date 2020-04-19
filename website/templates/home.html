@@ -21,6 +21,12 @@
 
     .height-vh {height: 100vh;}
 
+    .about {
+        background-size: cover;
+        background-position: center 0px;
+        min-height: 100vh;
+    }
+
     .about-select {
         width: 90%;
         background: #FA6;
@@ -66,11 +72,6 @@
         text-decoration: none;
     }
 
-    .about {
-        background-size: cover;
-        background-position: center 0px;
-        min-height: 100vh;
-    }
 
     #work-box {
         background: url("{{ background_list.1.image.url }}");
@@ -111,11 +112,12 @@
         flex-flow: column;
     }
 
-    #head-box {
+    #home-box {
         background: url("{{ background_list.0.image.url }}");
         background-size: cover;
         background-position: 50% 0px;
         min-height:100vh;
+        width: 100%;
     }
 
     #body-box {
@@ -127,7 +129,10 @@
     }
     .head-content { color: white; font-family: cwTeXFangSong;}
 
-    .about-title {color: white; font-family: LuloCleanW01-OneBold;}
+    .about-title {
+        color: white;
+        font-family: LuloCleanW01-OneBold;
+    }
     .about-title:first-letter {color: #FA6;}
 
     .body-title {color: white;
@@ -373,13 +378,6 @@
 
 <script type="text/javascript">
     window.addEventListener('load', function() {
-        $(".nav-select, .about-select").click(function() {
-            let about_target = $(this).data("torget");
-            $("html, body").animate({
-                'scrollTop':   $(about_target + "-box").offset().top - $(".navbar").height() + 1
-            }, 600);
-
-        })
 
         $("#to-top").click(function() {
                 $("html, body").animate({
@@ -387,16 +385,16 @@
                 }, 600);
         });
 
-        let head_box_position = $("#head-box").height() - $(document).scrollTop()
-        if (head_box_position < $("#head-box").height()/2) {
+        let head_box_position = $("#home-box").height() - $(document).scrollTop()
+        if (head_box_position < $("#home-box").height()/2) {
             $("#to-top").show();
         }else {
             $("#to-top").hide();
         }
 
         $(window).scroll(function() {
-            let new_head_box_position = $("#head-box").height() - $(document).scrollTop()
-            if (new_head_box_position < $("#head-box").height()/2) {
+            let new_head_box_position = $("#home-box").height() - $(document).scrollTop()
+            if (new_head_box_position < $("#home-box").height()/2) {
                 $("#to-top").show();
             }else {
                 $("#to-top").hide();
@@ -404,21 +402,23 @@
         });
 
 
-        let scroll_bg_list = document.querySelectorAll(".scroll-bg")
+//        let scroll_bg_list = document.querySelectorAll(".scroll-bg")
         let speed = 0.5;
 
 
-            [].slice.call(scroll_bg_list).forEach(function(el,i){
-                let page_position = $(document).scrollTop();
-                let scroll_offset = page_position - el.offsetTop + 55;
-                let scroll_bg_position = "center " + (scroll_offset * speed) + "px";
-                el.style.backgroundPosition = scroll_bg_position;
-            });
+/*
+        [].slice.call(scroll_bg_list).forEach(function(el,i){
+            let page_position = $(document).scrollTop();
+            let scroll_offset = page_position - el.offsetTop;
+            let scroll_bg_position = "center " + (scroll_offset * speed) + "px";
+            el.style.backgroundPosition = scroll_bg_position;
+        });
+*/
 
         window.onscroll = function(){
-            [].slice.call(scroll_bg_list).forEach(function(el,i){
+            $(".scroll-bg").each(function(i, el){
                 let page_position = $(document).scrollTop();
-                let scroll_offset = page_position - el.offsetTop + 55;
+                let scroll_offset = page_position - el.offsetTop;
                 let scroll_bg_position = "center " + (scroll_offset * speed) + "px";
                 el.style.backgroundPosition = scroll_bg_position;
             });
@@ -441,28 +441,71 @@
         });
 */
 
-$('.owl-carousel').owlCarousel({
-    loop:true,
-    margin:10,
-    nav:true,
-    navText:["<div class='nav-btn prev-slide'><</div>","<div class='nav-btn next-slide'>></div>"],
-    responsive:{
-        0:{
-            items:1
-        },
-        768:{
-            items:2
-        },
-        992:{
-            items:4
-        }
-    }
-})
+        let old_page = 'None';
+
+        $(".nav-select, .about-select").click(function() {
+                //'scrollTop':   $(about_target + "-box").offset().top - $(".navbar").height() + 1
+            let about_target = $(this).data("torget");
+            $("html, body").animate({
+                'scrollTop':   $(about_target + "-box").offset().top + 5
+            }, 600);
+        });
+
+        $(window).scroll(function() {
+            clearTimeout($.data(this, 'scrollTimer'));
+            $.data(this, 'scrollTimer', setTimeout(function() {
+                let now_page = "None";
+                $(".page-box").each(function(i, el){
+                    let page_id = $(el).attr('id');
+                    //let top_pos = ( $(el).offset().top - $(document).scrollTop() - $(".navbar").height() + 1 ) / ($( window ).height()  - $(".navbar").height() ) * 100;
+                    let top_pos = ( $(el).offset().top - $(document).scrollTop() + 5) / ($( window ).height()  - $(".navbar").height() ) * 100;
+                    if (i != 0){
+                        if (top_pos <=20 && top_pos >=0){
+                            now_page = page_id;
+                            console.log(Math.round($(el).offset().top));
+                            $("html, body").animate({
+                                'scrollTop': Math.round($(el).offset().top) + 5
+                                //'scrollTop': $(el).offset().top - $(".navbar").height() + 1
+                            }, 100);
+                        }
+                    }
+                    //let bottom_pos = ($(el).offset().top - $(document).scrollTop() + $(el).height() - $(".navbar").height()) / ($( window ).height()  - $(".navbar").height() ) * 100;
+                    let bottom_pos = ($(el).offset().top - $(document).scrollTop() + $(el).height()) / ($( window ).height()  - $(".navbar").height() ) * 100;
+                    if (bottom_pos <= 100 && bottom_pos >= 80){
+                        now_page = page_id;
+                        $("html, body").animate({
+                            'scrollTop':   $(el).offset().top + ($(el).height()-$( window ).height())
+                        }, 100);
+                    }
+
+                    if ($(el).index() > $('#' + old_page).index()){
+                        if (top_pos > 20 && top_pos < 80){
+                            now_page = page_id;
+                            $("html, body").animate({
+                                //'scrollTop': $(el).offset().top - $(".navbar").height() + 1
+                                'scrollTop': Math.round($(el).offset().top) + 5
+                            }, 300);
+                        }
+                    }
+
+                    if ($(el).index() < $('#' + old_page).index()){
+                        if (bottom_pos > 20 && bottom_pos < 80){
+                            now_page = page_id;
+                            $("html, body").animate({
+                                'scrollTop': $(el).offset().top + ($(el).height()-$( window ).height())
+                            }, 300);
+                        }
+                    }
+                });
+                old_page = now_page;
+            }, 250));
+        });
 
 
     });
 </script>
-<div id="head-box" class="center scroll-bg">
+<div id="head-box">
+    <div id="home-box" class="scroll-bg page-box center" >
     <div class="container col-sm-10 col-md-10 col-lg-8 col-xl-8">
         <div class="row">
             <div id="left-box" class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-3 container center pt-2">
@@ -495,76 +538,75 @@ $('.owl-carousel').owlCarousel({
             </div>
         </div>
     </div>
-</div>
+    </div>
 
 
-<div id="body-box">
 
-                <div class="about horizontal-center scroll-bg" id="work-box">
-                    <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
-                        <p class="about-title">Works</p>
-                        <div>
-                            {% for work in work_list %}
-                                <div>
-                                    <a class="work-url center" href="{{ work.url }}">
-                                    <div class="row">
-                                        <div class="col-3 center">
-                                            <div class="body-image-box center">
-                                                <img alt="" class="thumbnail" src="{{ work.image.url }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-9 vertical-center">
-                                            <p class="work-title">{{ work.name }}</p>
-                                            <p class="body-content">{{ work.content }}</p>
-                                        </div>
-                                    </div>
-                                    </a>
+    <div class="page-box about horizontal-center scroll-bg" id="work-box">
+        <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
+            <p class="about-title">Works</p>
+            <div>
+                {% for work in work_list %}
+                    <div>
+                        <a class="work-url center" href="{{ work.url }}">
+                        <div class="row">
+                            <div class="col-3 center">
+                                <div class="body-image-box center">
+                                    <img alt="" class="thumbnail" src="{{ work.image.url }}">
                                 </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="about horizontal-center scroll-bg" id="skill-box">
-                    <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
-                    <p class="about-title">Skills</p>
-                    {% for skill in skill_list %}
-                        <p class="body-title">{{ skill.title }}</p>
-                        <p class="body-content">{{ skill.description }}</p>
-                    {% endfor %}
-                    </div>
-                </div>
-
-                <div class="about horizontal-center scroll-bg" id="contact-box">
-                    <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
-                        <p class="about-title">Contact</p>
-                        <div class="col pt-3">
-                            <form method="post">
-                                {{ comment_form | crispy }}
-                                {% csrf_token %}
-                                <button class="submit-button" type="submit">Send</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="about horizontal-center scroll-bg" id="link-box">
-                    <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
-                        <p class="about-title">Links</p>
-                        <div class="col pt-3">
-                            <div class="row">
-                            {% for link in link_list %}
-                                <a class="col-6 col-sm-6 col-md-3 link center" href="{{ link.url }}">
-                                    <p class="link-title">{{ link.name }}</p>
-                                    <div class="body-image-box">
-                                        <img alt="" class="thumbnail" src="{{ link.image.url }}">
-                                    </div>
-                                </a>
-                            {% endfor %}
+                            </div>
+                            <div class="col-9 vertical-center">
+                                <p class="work-title">{{ work.name }}</p>
+                                <p class="body-content">{{ work.content }}</p>
                             </div>
                         </div>
+                        </a>
                     </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="page-box about horizontal-center scroll-bg" id="skill-box">
+        <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
+        <p class="about-title">Skills</p>
+        {% for skill in skill_list %}
+            <p class="body-title">{{ skill.title }}</p>
+            <p class="body-content">{{ skill.description }}</p>
+        {% endfor %}
+        </div>
+    </div>
+
+    <div class="page-box about horizontal-center scroll-bg" id="contact-box">
+        <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
+            <p class="about-title">Contact</p>
+            <div class="col pt-3">
+                <form method="post">
+                    {{ comment_form | crispy }}
+                    {% csrf_token %}
+                    <button class="submit-button" type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-box about horizontal-center scroll-bg" id="link-box">
+        <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
+            <p class="about-title">Links</p>
+            <div class="col pt-3">
+                <div class="row">
+                {% for link in link_list %}
+                    <a class="col-6 col-sm-6 col-md-3 link center" href="{{ link.url }}">
+                        <p class="link-title">{{ link.name }}</p>
+                        <div class="body-image-box">
+                            <img alt="" class="thumbnail" src="{{ link.image.url }}">
+                        </div>
+                    </a>
+                {% endfor %}
                 </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
