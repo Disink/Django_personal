@@ -18,8 +18,6 @@
                 font-style: normal;
             }
 
-
-
             html {
                 overflow-y: overlay;
             }
@@ -41,9 +39,19 @@
             }
 
             .navbar {
-                    position: absolute;
-                        width: 100%;
-//                background: #FA6;
+                //position: absolute;
+                position: fixed;
+                width: 100%;
+                z-index: 999;
+                transition: .5s;
+            }
+
+            .navbar:hover{
+                background: rgba(0, 0, 0, 0.5);
+            }
+
+            .navbar.show{
+                background: rgba(0, 0, 0, 0.5);
             }
 
             #loading-box {
@@ -143,7 +151,25 @@
         <script type="text/javascript">
             window.addEventListener('load', function () {
                 $('#loading-box').delay( 500 ).fadeOut( 600 );
+
+
+                $(".navbar-toggler").click(function() {
+                    $(".navbar").toggleClass('show');
+                });
+
+                $(".navbar").on( "mouseleave", function(){
+                    if ($('.collapse').hasClass("show")){
+                        $('.collapse').collapse('hide')
+                        $(".navbar").removeClass('show');
+                    }
+
+                    $.data(this, 'scrollTimer', setTimeout(function() {
+                        $('.collapse').collapse('hide');
+                        $(".navbar").removeClass('show');
+                    },1000));
+                });
             });
+
         </script>
 
     </head>
@@ -160,7 +186,7 @@
 <!--
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top p-0" id="mainNav">
         -->
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top p-0" id="mainNav">
+        <nav class="navbar navbar-expand-lg navbar-dark p-0" id="mainNav">
             <div class="container-fluid col-11 col-sm-11 col-md-11 col-lg-12 col-xl-12">
                 <a class="navbar-brand" href="{% url 'home' %}">Disink</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -191,8 +217,10 @@
         <!-- Content Goes here -->
         {% endblock content %}
         <!-- Footer -->
+        <!--
         <footer class="py-3" >
             <p class="m-0 text-dark text-center ">Copyright &copy; Django Bootstrap Jquery</p>
         </footer>
+        -->
     </body>
 </html>

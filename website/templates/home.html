@@ -24,7 +24,7 @@
     .about {
         background-size: cover;
         background-position: center 0px;
-        min-height: 100vh;
+        min-height: 101vh;
     }
 
     .about-select {
@@ -127,18 +127,26 @@
     .head-title {color: white;
         font-family: LuloCleanW01-OneBold;
     }
-    .head-content { color: white; font-family: cwTeXFangSong;}
+    .head-content {
+        font-family: cwTeXFangSong;
+        color: white;
+    }
 
     .about-title {
         color: white;
         font-family: LuloCleanW01-OneBold;
+        padding-top: 6vh;
     }
+
     .about-title:first-letter {color: #FA6;}
 
     .body-title {color: white;
         font-family: LuloCleanW01-OneBold;
     }
-    .body-title:first-letter {color: #FA6; font-family: LuloCleanW01-OneBold;}
+    .body-title:first-letter {
+        font-family: LuloCleanW01-OneBold;
+        color: #FA6;
+    }
     .body-content {
         color: white;
         font-family:cwTeXFangSong;
@@ -441,12 +449,12 @@
         });
 */
 
-        let old_page = 'None';
+        let old_page;
 
         $(".nav-select, .about-select").click(function() {
-                //'scrollTop':   $(about_target + "-box").offset().top - $(".navbar").height() + 1
             let about_target = $(this).data("torget");
             $("html, body").animate({
+                //'scrollTop':   $(about_target + "-box").offset().top - $(".navbar").height() + 1
                 'scrollTop':   $(about_target + "-box").offset().top + 5
             }, 600);
         });
@@ -458,7 +466,7 @@
                 $(".page-box").each(function(i, el){
                     let page_id = $(el).attr('id');
                     //let top_pos = ( $(el).offset().top - $(document).scrollTop() - $(".navbar").height() + 1 ) / ($( window ).height()  - $(".navbar").height() ) * 100;
-                    let top_pos = ( $(el).offset().top - $(document).scrollTop() + 5) / ($( window ).height()  - $(".navbar").height() ) * 100;
+                    let top_pos = ( $(el).offset().top - $(document).scrollTop() + 5) / ($( window ).height()) * 100;
                     if (i != 0){
                         if (top_pos <=20 && top_pos >=0){
                             now_page = page_id;
@@ -470,7 +478,7 @@
                         }
                     }
                     //let bottom_pos = ($(el).offset().top - $(document).scrollTop() + $(el).height() - $(".navbar").height()) / ($( window ).height()  - $(".navbar").height() ) * 100;
-                    let bottom_pos = ($(el).offset().top - $(document).scrollTop() + $(el).height()) / ($( window ).height()  - $(".navbar").height() ) * 100;
+                    let bottom_pos = ($(el).offset().top - $(document).scrollTop() + $(el).height()) / ($( window ).height()) * 100;
                     if (bottom_pos <= 100 && bottom_pos >= 80){
                         now_page = page_id;
                         $("html, body").animate({
@@ -496,9 +504,17 @@
                             }, 300);
                         }
                     }
+
+                    if (bottom_pos > 100 && top_pos <0){
+                        now_page = page_id;
+                    }
                 });
                 old_page = now_page;
             }, 250));
+        });
+
+        $("html, body").on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function(){
+            $("html, body").stop();
         });
 
 
