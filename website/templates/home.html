@@ -24,7 +24,7 @@
     .about {
         background-size: cover;
         background-position: center 0px;
-        min-height: 101vh;
+        min-height: 100vh;
     }
 
     .about-select {
@@ -39,7 +39,7 @@
 
     .about-select:hover {
         color: white;
-        background: #111;
+        background: #666;
     }
 
     .about-select.active { background: #111; }
@@ -152,7 +152,7 @@
         font-family:cwTeXFangSong;
         background: #FA6;
         border-radius: 15px;
-        padding: 10px;
+        padding: 15px;
         margin: 15px;
     }
     .body-data {color: white;}
@@ -199,8 +199,7 @@
     }
 
     .submit-button:hover {
-        background: #222;
-        padding: 10px;
+        background: #666;
     }
 
     .body-image-box {
@@ -410,27 +409,16 @@
         });
 
 
-//        let scroll_bg_list = document.querySelectorAll(".scroll-bg")
         let speed = 0.5;
 
-
-/*
-        [].slice.call(scroll_bg_list).forEach(function(el,i){
-            let page_position = $(document).scrollTop();
-            let scroll_offset = page_position - el.offsetTop;
-            let scroll_bg_position = "center " + (scroll_offset * speed) + "px";
-            el.style.backgroundPosition = scroll_bg_position;
-        });
-*/
-
-        window.onscroll = function(){
+        $(window).scroll(function() {
             $(".scroll-bg").each(function(i, el){
                 let page_position = $(document).scrollTop();
                 let scroll_offset = page_position - el.offsetTop;
                 let scroll_bg_position = "center " + (scroll_offset * speed) + "px";
                 el.style.backgroundPosition = scroll_bg_position;
             });
-        };
+        });
 
 /*
         $(window).scroll(function() {
@@ -449,67 +437,75 @@
         });
 */
 
-        let old_page;
+        let page = $(".page-box").first().attr('id');
+
+
+        function scroll(target, el, speed){
+            switch (target){
+            case "TOP":
+                $("html, body").animate({
+                    'scrollTop': Math.ceil($(el).offset().top)
+                }, speed);
+                break;
+
+            case "BOTTOM":
+                $("html, body").animate({
+                    'scrollTop':   $(el).offset().top + ($(el).height()-$( window ).height())
+                }, speed);
+                break;
+            }
+        }
 
         $(".nav-select, .about-select").click(function() {
             let about_target = $(this).data("torget");
-            $("html, body").animate({
-                //'scrollTop':   $(about_target + "-box").offset().top - $(".navbar").height() + 1
-                'scrollTop':   $(about_target + "-box").offset().top + 5
-            }, 600);
+            scroll("TOP", $(about_target + "-box"), 600);
         });
 
         $(window).scroll(function() {
             clearTimeout($.data(this, 'scrollTimer'));
             $.data(this, 'scrollTimer', setTimeout(function() {
-                let now_page = "None";
+                let now_page;
                 $(".page-box").each(function(i, el){
                     let page_id = $(el).attr('id');
                     //let top_pos = ( $(el).offset().top - $(document).scrollTop() - $(".navbar").height() + 1 ) / ($( window ).height()  - $(".navbar").height() ) * 100;
-                    let top_pos = ( $(el).offset().top - $(document).scrollTop() + 5) / ($( window ).height()) * 100;
-                    if (i != 0){
-                        if (top_pos <=20 && top_pos >=0){
-                            now_page = page_id;
-                            console.log(Math.round($(el).offset().top));
-                            $("html, body").animate({
-                                'scrollTop': Math.round($(el).offset().top) + 5
-                                //'scrollTop': $(el).offset().top - $(".navbar").height() + 1
-                            }, 100);
-                        }
-                    }
+                    let top_pos = ( $(el).offset().top - $(document).scrollTop()) / ($( window ).height()) * 100;
                     //let bottom_pos = ($(el).offset().top - $(document).scrollTop() + $(el).height() - $(".navbar").height()) / ($( window ).height()  - $(".navbar").height() ) * 100;
                     let bottom_pos = ($(el).offset().top - $(document).scrollTop() + $(el).height()) / ($( window ).height()) * 100;
-                    if (bottom_pos <= 100 && bottom_pos >= 80){
-                        now_page = page_id;
-                        $("html, body").animate({
-                            'scrollTop':   $(el).offset().top + ($(el).height()-$( window ).height())
-                        }, 100);
-                    }
 
-                    if ($(el).index() > $('#' + old_page).index()){
-                        if (top_pos > 20 && top_pos < 80){
-                            now_page = page_id;
-                            $("html, body").animate({
-                                //'scrollTop': $(el).offset().top - $(".navbar").height() + 1
-                                'scrollTop': Math.round($(el).offset().top) + 5
-                            }, 300);
-                        }
-                    }
+                    switch (true) {
+                        case (top_pos <=20 && top_pos > 0):
+                            if ($(el).is(':first-child') == false){
+                                page = page_id;
+                                scroll("TOP", el, 100);
+                            }
+                            break;
 
-                    if ($(el).index() < $('#' + old_page).index()){
-                        if (bottom_pos > 20 && bottom_pos < 80){
-                            now_page = page_id;
-                            $("html, body").animate({
-                                'scrollTop': $(el).offset().top + ($(el).height()-$( window ).height())
-                            }, 300);
-                        }
-                    }
+                        case (bottom_pos < 100 && bottom_pos >= 80):
+                            page = page_id;
+                            scroll("BOTTOM", el, 100);
+                            break;
 
-                    if (bottom_pos > 100 && top_pos <0){
-                        now_page = page_id;
+                        case (top_pos > 20 && top_pos < 80):
+                            let now_page_index = $(el).index();
+                            let old_page_index = $('#' + page).index();
+                            switch (true) {
+                                case (now_page_index > old_page_index):
+                                    scroll("TOP", el, 300);
+                                    page = page_id;
+                                    break;
+
+                                case (now_page_index <= old_page_index):
+                                    scroll("BOTTOM", $(".page-box")[i-1], 300);
+                                    page = $($(".page-box")[i-1]).attr('id');
+                                    break;
+                            }
+                            break;
+
+                        case (bottom_pos >= 100 && top_pos <= 0):
+                            page = page_id;
+                            break;
                     }
                 });
-                old_page = now_page;
             }, 250));
         });
 
