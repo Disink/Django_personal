@@ -24,7 +24,7 @@
     .about {
         background-size: cover;
         background-position: center 0px;
-        min-height: 100vh;
+        min-height: 101vh;
     }
 
     .about-select {
@@ -73,19 +73,21 @@
     }
 
 
-    #work-box {
-        background: url("{{ background_list.1.image.url }}");
+    #skill-box {
+        background: #333;
         background-size: cover;
     }
-    #skill-box {
-        background: url("{{ background_list.2.image.url }}");
+    #work-box {
+        //background: url("{{ background_list.2.image.url }}");
+        background: #666;
         background-size: cover;
     }
     #contact-box {
-        background: url("{{ background_list.3.image.url }}");
+        background: #333;
         background-size: cover;
     }
     #link-box {
+        //background: #666;
         background: url("{{ background_list.4.image.url }}");
         background-size: cover;
     }
@@ -127,6 +129,7 @@
     .head-title {color: white;
         font-family: LuloCleanW01-OneBold;
     }
+
     .head-content {
         font-family: cwTeXFangSong;
         color: white;
@@ -143,10 +146,12 @@
     .body-title {color: white;
         font-family: LuloCleanW01-OneBold;
     }
+
     .body-title:first-letter {
         font-family: LuloCleanW01-OneBold;
         color: #FA6;
     }
+
     .body-content {
         color: white;
         font-family:cwTeXFangSong;
@@ -155,18 +160,44 @@
         padding: 15px;
         margin: 15px;
     }
-    .body-data {color: white;}
+
+    .body-about-content {
+        color: white;
+        font-family:cwTeXFangSong;
+        text-align: center;
+        font-size: 4vw;
+
+    }
+
+    .body-data {
+        color: white;
+        font-family:cwTeXFangSong;
+    }
 
     .work-title {color: white;}
     .work-title:first-letter {color: #FA6;}
 
-    .work-url {
-        padding-bottom: 10px;
-        transition: .5s;
-        }
-    .work-url:hover {
+    .work-info {
+        display: none;
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        color: white;
+        flex-direction: column;
+        height: 100%;
+        justify-content: center;
         background: rgba(0, 0, 0, 0.5);
-        border-radius: 10px;
+    }
+
+    .work-info.hover {
+        display: flex;
+    }
+
+    .work-url {
+        padding-top: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-bottom: 10px;
     }
 
     .about-skill-data {
@@ -204,8 +235,8 @@
 
     .body-image-box {
         background: white;
-        border: 2px solid #FA6;
         border-radius: 100%;
+        border: 5px solid #666;
         overflow: hidden;
         width: 80%;
     }
@@ -225,6 +256,14 @@
     .link:hover {
         background: rgba(0, 0, 0, 0.5);
         border-radius: 10px;
+    }
+
+    a {
+        color: white;
+    }
+
+    a:hover {
+        color: white;
     }
 
     @media(max-width:767px){
@@ -297,6 +336,7 @@
 
         .body-title {font-size:4vw;}
         .body-content {font-size:3.2vw;}
+        .body-about-content {font-size:6vw;}
         .body-data {font-size:3vw;}
 
         .work-title {font-size:6vw;}
@@ -331,6 +371,7 @@
 
         .body-title {font-size:3.5vw;}
         .body-content {font-size:2vw;}
+        .body-about-content {font-size:3vw;}
         .body-data {font-size:1.8vw;}
 
         .work-title {font-size:4vw;}
@@ -513,6 +554,31 @@
             $("html, body").stop();
         });
 
+        let touch_status = false;
+
+        $(".work-img").on('touchstart', function(){
+            clearTimeout($.data(this, "touch_timer"));
+            touch_status = true;
+            $.data(this, "touch_timer", setTimeout(function(){
+                touch_status = false;
+            },500));
+        });
+
+        $(".work-img").mouseover(function(){
+            work_info_target = $(this).data("torget");
+            $(work_info_target).addClass("hover");
+        });
+
+        $(".work-info").mouseleave(function(){
+            $(this).removeClass("hover");
+        });
+
+        $(".work-info").mouseup(function(){
+            if (!touch_status){
+                window.location = $(this).data("url");;
+            }
+        });
+
 
     });
 </script>
@@ -553,45 +619,43 @@
     </div>
 
 
-
-    <div class="page-box about horizontal-center scroll-bg" id="work-box">
-        <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
-            <p class="about-title">Works</p>
-            <div>
-                {% for work in work_list %}
-                    <div>
-                        <a class="work-url center" href="{{ work.url }}">
-                        <div class="row">
-                            <div class="col-3 center">
-                                <div class="body-image-box center">
-                                    <img alt="" class="thumbnail" src="{{ work.image.url }}">
-                                </div>
-                            </div>
-                            <div class="col-9 vertical-center">
-                                <p class="work-title">{{ work.name }}</p>
-                                <p class="body-content">{{ work.content }}</p>
-                            </div>
+    <div class="page-box about center scroll-bg" id="skill-box">
+        <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-10">
+            <div class="row">
+            {% for skill in skill_list %}
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3 horizontal-center">
+                        <div class="body-image-box center">
+                            <img alt="" class="thumbnail" src="{{ skill.image.url }}">
                         </div>
-                        </a>
-                    </div>
-                {% endfor %}
+                    <p class="body-title">{{ skill.title }}</p>
+                    <p class="body-data">{{ skill.description }}</p>
+                </div>
+            {% endfor %}
             </div>
         </div>
     </div>
 
-    <div class="page-box about horizontal-center scroll-bg" id="skill-box">
-        <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
-        <p class="about-title">Skills</p>
-        {% for skill in skill_list %}
-            <p class="body-title">{{ skill.title }}</p>
-            <p class="body-content">{{ skill.description }}</p>
-        {% endfor %}
+    <div class="page-box about center scroll-bg" id="work-box">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div>
+                <div class="row">
+                {% for work in work_list %}
+                    <div class="col-3 col-sm-6 col-md-6 col-lg-3 col-xl-3 center p-0">
+                        <img alt="" class="thumbnail work-img" data-torget="#work-info-{{ forloop.counter }}" src="{{ work.image.url }}" >
+                        <div id="work-info-{{ forloop.counter }}" class="work-info"  data-url="{{ work.url }}">
+                            <div class="body-title">{{ work.name }}</div>
+                            <div class="body-data">{{ work.content }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="page-box about horizontal-center scroll-bg" id="contact-box">
-        <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
-            <p class="about-title">Contact</p>
+
+    <div class="page-box about center scroll-bg" id="contact-box">
+        <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-10">
             <div class="col pt-3">
                 <form method="post">
                     {{ comment_form | crispy }}
@@ -602,9 +666,8 @@
         </div>
     </div>
 
-    <div class="page-box about horizontal-center scroll-bg" id="link-box">
+    <div class="page-box about center scroll-bg" id="link-box">
         <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
-            <p class="about-title">Links</p>
             <div class="col pt-3">
                 <div class="row">
                 {% for link in link_list %}

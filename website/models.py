@@ -4,6 +4,7 @@ from ordered_model.models import OrderedModel
 class Skill(OrderedModel):
     title = models.CharField(max_length=200, unique=True)
     description = models.CharField(max_length=200)
+    image = models.FileField(upload_to='skill_image')
 
     def __str__(self):
         return self.title
@@ -11,7 +12,7 @@ class Skill(OrderedModel):
 
 class Work(OrderedModel):
     name = models.CharField(max_length=200, unique=True)
-    image = models.ImageField(upload_to='work_image')
+    image = models.FileField(upload_to='work_image')
     content = models.TextField()
     url = models.CharField(max_length=160, blank=True, default='')
 
@@ -48,7 +49,7 @@ class Image(models.Model):
 
 class Background(OrderedModel):
     name = models.CharField(max_length=80)
-    image = models.FileField(upload_to='background_image')
+    image = models.FileField(upload_to='background_image', blank=True)
 
     def __str__(self):
         return self.name
