@@ -78,8 +78,7 @@
         background-size: cover;
     }
     #work-box {
-        //background: url("{{ background_list.2.image.url }}");
-        background: #666;
+        background: #333;
         background-size: cover;
     }
     #contact-box {
@@ -87,7 +86,6 @@
         background-size: cover;
     }
     #link-box {
-        //background: #666;
         background: url("{{ background_list.4.image.url }}");
         background-size: cover;
     }
@@ -575,10 +573,29 @@
 
         $(".work-info").mouseup(function(){
             if (!touch_status){
-                window.location = $(this).data("url");;
+                window.location = $(this).data("url");
             }
         });
 
+        $("#contact_submit_button").click(function(){
+            let url = "/api/contact";
+            let method = "POST";
+            let data = {};
+            data['name'] = $("#id_name").val()
+            data['email'] = $("#id_email").val()
+            data['title'] = $("#id_title").val()
+            data['message'] = $("#id_message").val()
+
+            $.ajax({
+                url: url,
+                method: method,
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                data: data,
+                dataType: "json"
+            }).done(function(response) {
+                alert("訊息已送出");
+            })
+        });
 
     });
 </script>
@@ -657,10 +674,10 @@
     <div class="page-box about center scroll-bg" id="contact-box">
         <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-10">
             <div class="col pt-3">
-                <form method="post">
+                <form method="post" action="/api/contact">
                     {{ comment_form | crispy }}
                     {% csrf_token %}
-                    <button class="submit-button" type="submit">Send</button>
+                    <button id="contact_submit_button" class="submit-button" type="button">Send</button>
                 </form>
             </div>
         </div>

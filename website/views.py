@@ -1,11 +1,18 @@
 
 from django.shortcuts import render
 
+from django.views.decorators.http import require_http_methods
+
+from django.http import HttpResponse, JsonResponse
+
+from django.core.exceptions import ObjectDoesNotExist
+
 from website.models import Skill
 from website.models import Work
 from website.models import Link
 from website.models import Image
 from website.models import Background
+from website.models import Contact
 
 from website.forms import ContactForm
 
@@ -23,12 +30,11 @@ def home_page(request):
 
     contact_form = ContactForm()
 
-    if request.method == 'POST':
-        contact_form = ContactForm(data=request.POST)
-        if contact_form.is_valid():
-
-            contact_form.save()
-            send(request.POST)
+#    if request.method == 'POST':
+#        contact_form = ContactForm(data=request.POST)
+#        if contact_form.is_valid():
+#
+#            contact_form.save()
 
     return render(request, 'home.html', {'skill_list': skill_list,
                                           'work_list': work_list,
@@ -38,3 +44,22 @@ def home_page(request):
                                           'head_background': head_background,
                                           'comment_form': contact_form,})
 
+@require_http_methods(['POST'])
+def contact_api_page(request):
+    print(request.POST)
+    response = {}
+    try:
+        name_text = request.POST['name']
+        email_text = request.POST['email']
+        title_text = request.POST['title']
+        message_text = request.POST['message']
+        contact_ = Contact.objects.create(name=name_text,
+                                          email=email_text,
+                                          title=title_text,
+                                          message=message_text)
+        send(request.POST)
+        response['msg'] = 'Ok'
+    except ObjectDoesNotExist:
+        response['msg'] = 'Error'
+
+    return JsonResponse(response)

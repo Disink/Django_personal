@@ -24,4 +24,5 @@ from website import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home_page, name='home'),
+    path('api/contact', views.contact_api_page, name='contact_api'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
