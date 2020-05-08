@@ -1,19 +1,16 @@
 # Personal website with django
 簡單的個人網站
+主要使用:
+ - Django
+ - Jquery.js
+ - Bootstrap.js
+ - Vue.js
 
 # Project
-##  Port1
- - 完整的網頁功能 包含:簡歷. 聯絡方式. 其他連結. 後台管理 ...等
- - 額外功能 在收到來自Contact 時會透過Line Bot通知
-   - 在Django admin > Lines 填入 line_id 與 Token 即可
-   - 額外得編輯 如訊息格式.內容 在website/lines 內設定
+##  Part1
+ - [x] 網頁的整體風格設計
+ - [x] 有新訊息來自Contact時 發送提醒至LineBot
 
-## Port II
-如果網頁將部屬到雲端 Google app engine. Heroku ...等. 修改Templates就變得比較麻煩
- - 目標讓Template可以在Django admin 編輯
-   - 將Templates 存入DB
- - Page也放入DB 讓Templat自己完成排版 讓Page的建立與編輯可以在後台完成
-   - 單純文章形式的狀況很好處理
-     - Template完成排版後 將Page從DB載入
-   - 但如果內容還必須從資料庫取得 Page的部分就無法得到渲染
-     - 使用Vue.js在Template完成前端渲染後填入資料
+## Part II
+ - [x] 建立API
+ - [ ] Page移動到DB後使用Vue.js在前端填入資料
