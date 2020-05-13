@@ -13,6 +13,7 @@ from website.models import Link
 from website.models import Image
 from website.models import Background
 from website.models import Contact
+from website.models import Page
 
 from website.forms import ContactForm
 
@@ -46,7 +47,6 @@ def home_page(request):
 
 @require_http_methods(['POST'])
 def contact_api_page(request):
-    print(request.POST)
     response = {}
     try:
         name_text = request.POST['name']
@@ -59,6 +59,28 @@ def contact_api_page(request):
                                           message=message_text)
         send(request.POST)
         response['msg'] = 'Ok'
+    except ObjectDoesNotExist:
+        response['msg'] = 'Error'
+
+    return JsonResponse(response)
+
+@require_http_methods(['GET'])
+def page_api_page(request):
+    response = {}
+    try:
+        response['page'] = list(Page.objects.all().values())
+    except ObjectDoesNotExist:
+        response['msg'] = 'Error'
+
+    return JsonResponse(response)
+
+@require_http_methods(['GET'])
+def page_data_api_page(request):
+    response = {}
+    try:
+        response['skill'] = list(Skill.objects.all().values())
+        response['work'] = list(Work.objects.all().values())
+        response['link'] = list(Link.objects.all().values())
     except ObjectDoesNotExist:
         response['msg'] = 'Error'
 

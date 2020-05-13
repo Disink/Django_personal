@@ -7,6 +7,7 @@ from website.models import Link
 from website.models import Line
 from website.models import Image
 from website.models import Background
+from website.models import Page
 
 
 class SkillAdmin(OrderedModelAdmin):
@@ -49,3 +50,10 @@ class BackgroundAdmin(OrderedModelAdmin):
     list_display = ['name', 'move_up_down_links']
 
 admin.site.register(Background, BackgroundAdmin)
+
+
+
+class PageAdmin(OrderedModelAdmin):
+    list_display = ['name', 'move_up_down_links']
+
+admin.site.register(Page, PageAdmin)

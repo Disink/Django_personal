@@ -256,6 +256,13 @@
         border-radius: 10px;
     }
 
+    .contact-input {
+        border-bottom: 1px white solid;
+        margin-bottom: 20px;
+        color: white;
+        font-size: initial;
+    }
+
     a {
         color: white;
     }
@@ -424,283 +431,208 @@
 
 <script type="text/javascript">
     window.addEventListener('load', function() {
-
-        $("#to-top").click(function() {
-                $("html, body").animate({
-                    'scrollTop': 0
-                }, 600);
-        });
-
-        let head_box_position = $("#home-box").height() - $(document).scrollTop()
-        if (head_box_position < $("#home-box").height()/2) {
-            $("#to-top").show();
-        }else {
-            $("#to-top").hide();
-        }
-
-        $(window).scroll(function() {
-            let new_head_box_position = $("#home-box").height() - $(document).scrollTop()
-            if (new_head_box_position < $("#home-box").height()/2) {
-                $("#to-top").show();
-            }else {
-                $("#to-top").hide();
-            }
-        });
-
-
-        let speed = 0.5;
-
-        $(window).scroll(function() {
-            $(".scroll-bg").each(function(i, el){
-                let page_position = $(document).scrollTop();
-                let scroll_offset = page_position - el.offsetTop;
-                let scroll_bg_position = "center " + (scroll_offset * speed) + "px";
-                el.style.backgroundPosition = scroll_bg_position;
+        Vue.config.devtools = false;
+        $.ajax({
+            url: "/api/page",
+            method: "GET",
+            headers: {"X-CSRFToken": "{{ csrf_token }}"},
+            dataType: "json"
+        }).done(function(response) {
+            let page_contents = "";
+            $.each(response.page, function(i, el){
+                let page_start_tag = '<div id="' + el.name + '-box" class="scroll-bg page-box center about">';
+                let page_end_tag = '</div>';
+                let page_content = page_start_tag + el.content + page_end_tag;
+                page_contents += page_content;
             });
-        });
 
-/*
-        $(window).scroll(function() {
-            $(".scroll-bg").each(function(i, el){
-                let top_offset = $(el).offset().top - $(document).scrollTop() - $(".navbar").height();
-                let bottom_offset = $(el).offset().top - $(document).scrollTop() + $(el).height() - $(".navbar").height();
-                let el_view_range = $(el).height() + $(window).height();
-                let el_view_percentage = 100 - (bottom_offset / el_view_range *100);
-                //el_view_percentage = String(el_view_percentage).split(".")[0];
-                if (el_view_percentage >= 0) {
-                    console.log(100 - (bottom_offset / el_view_range * 100));
+            let page = new Vue({
+                el: '#main-box',
+                data: {
+                    page: page_contents
+                },
+                mounted: function(){
+
+
+                    $.ajax({
+                        url: "/api/page/data",
+                        method: "GET",
+                        headers: {"X-CSRFToken": "{{ csrf_token }}"},
+                        dataType: "json"
+                    }).done(function(response) {
+                        let page_data = new Vue({
+                            el: "#main-box",
+                            data: {
+                               data: response
+                            },
+                            mounted: function(){
+                                $("#to-top").click(function() {
+                                        $("html, body").animate({
+                                            'scrollTop': 0
+                                        }, 600);
+                                });
+
+                                let head_box_position = $("#home-box").height() - $(document).scrollTop()
+                                if (head_box_position < $("#home-box").height()/2) {
+                                    $("#to-top").show();
+                                }else {
+                                    $("#to-top").hide();
+                                }
+
+                                $(window).scroll(function() {
+                                    let new_head_box_position = $("#home-box").height() - $(document).scrollTop()
+                                    if (new_head_box_position < $("#home-box").height()/2) {
+                                        $("#to-top").show();
+                                    }else {
+                                        $("#to-top").hide();
+                                    }
+                                });
+
+
+                                let speed = 0.5;
+
+                                $(window).scroll(function() {
+                                    $(".scroll-bg").each(function(i, el){
+                                        let page_position = $(document).scrollTop();
+                                        let scroll_offset = page_position - el.offsetTop;
+                                        let scroll_bg_position = "center " + (scroll_offset * speed) + "px";
+                                        el.style.backgroundPosition = scroll_bg_position;
+                                    });
+                                });
+
+                                let page = $(".page-box").first().attr('id');
+
+                                function scroll(target, el, speed){
+                                    switch (target){
+                                    case "TOP":
+                                        $("html, body").animate({
+                                            'scrollTop': Math.ceil($(el).offset().top)
+                                        }, speed);
+                                        break;
+
+                                    case "BOTTOM":
+                                        $("html, body").animate({
+                                            'scrollTop':   $(el).offset().top + ($(el).height()-$( window ).height())
+                                        }, speed);
+                                        break;
+                                    }
+                                }
+
+                                $(".nav-select, .about-select").click(function() {
+                                    let about_target = $(this).data("torget");
+                                    scroll("TOP", $(about_target + "-box"), 600);
+                                });
+
+                                $(window).scroll(function() {
+                                    clearTimeout($.data(this, 'scrollTimer'));
+                                    $.data(this, 'scrollTimer', setTimeout(function() {
+                                        let now_page;
+                                        $(".page-box").each(function(i, el){
+                                            let page_id = $(el).attr('id');
+                                            //let top_pos = ( $(el).offset().top - $(document).scrollTop() - $(".navbar").height() + 1 ) / ($( window ).height()  - $(".navbar").height() ) * 100;
+                                            let top_pos = ( $(el).offset().top - $(document).scrollTop()) / ($( window ).height()) * 100;
+                                            //let bottom_pos = ($(el).offset().top - $(document).scrollTop() + $(el).height() - $(".navbar").height()) / ($( window ).height()  - $(".navbar").height() ) * 100;
+                                            let bottom_pos = ($(el).offset().top - $(document).scrollTop() + $(el).height()) / ($( window ).height()) * 100;
+
+                                            switch (true) {
+                                                case (top_pos <=20 && top_pos > 0):
+                                                    if ($(el).is(':first-child') == false){
+                                                        page = page_id;
+                                                        scroll("TOP", el, 100);
+                                                    }
+                                                    break;
+
+                                                case (bottom_pos < 100 && bottom_pos >= 80):
+                                                    page = page_id;
+                                                    scroll("BOTTOM", el, 100);
+                                                    break;
+
+                                                case (top_pos > 20 && top_pos < 80):
+                                                    let now_page_index = $(el).index();
+                                                    let old_page_index = $('#' + page).index();
+                                                    switch (true) {
+                                                        case (now_page_index > old_page_index):
+                                                            scroll("TOP", el, 300);
+                                                            page = page_id;
+                                                            break;
+
+                                                        case (now_page_index <= old_page_index):
+                                                            scroll("BOTTOM", $(".page-box")[i-1], 300);
+                                                            page = $($(".page-box")[i-1]).attr('id');
+                                                            break;
+                                                    }
+                                                    break;
+
+                                                case (bottom_pos >= 100 && top_pos <= 0):
+                                                    page = page_id;
+                                                    break;
+                                            }
+                                        });
+                                    }, 250));
+                                });
+
+                                $("html, body").on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function(){
+                                    $("html, body").stop();
+                                });
+
+                                let touch_status = false;
+
+                                $(".work-img").on('touchstart', function(){
+                                    clearTimeout($.data(this, "touch_timer"));
+                                    touch_status = true;
+                                    $.data(this, "touch_timer", setTimeout(function(){
+                                        touch_status = false;
+                                    },500));
+                                });
+
+                                $(".work-img").mouseover(function(){
+                                    work_info_target = $(this).data("torget");
+                                    $(work_info_target).addClass("hover");
+                                });
+
+                                $(".work-info").mouseleave(function(){
+                                    $(this).removeClass("hover");
+                                });
+
+                                $(".work-info").mouseup(function(){
+                                    if (!touch_status){
+                                        window.location = $(this).data("url");
+                                    }
+                                });
+
+                                $("#contact_submit_button").click(function(){
+                                    let url = "/api/contact";
+                                    let method = "POST";
+                                    let data = {};
+                                    data['name'] = $("#id_name").text()
+                                    data['email'] = $("#id_email").text()
+                                    data['title'] = $("#id_title").text()
+                                    data['message'] = $("#id_message").text()
+
+                                    $.ajax({
+                                        url: url,
+                                        method: method,
+                                        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                                        data: data,
+                                        dataType: "json"
+                                    }).done(function(response) {
+                                        alert("訊息已送出");
+                                    })
+                                });
+
+                            }
+                        });
+                    });
                 }
-                let scroll_bg_position = "50% " + (Number(100) + Number(el_view_percentage*2)) + "%";
-                $(el).css("background-position", scroll_bg_position);
             });
-        });
-*/
 
-        let page = $(".page-box").first().attr('id');
-
-
-        function scroll(target, el, speed){
-            switch (target){
-            case "TOP":
-                $("html, body").animate({
-                    'scrollTop': Math.ceil($(el).offset().top)
-                }, speed);
-                break;
-
-            case "BOTTOM":
-                $("html, body").animate({
-                    'scrollTop':   $(el).offset().top + ($(el).height()-$( window ).height())
-                }, speed);
-                break;
-            }
-        }
-
-        $(".nav-select, .about-select").click(function() {
-            let about_target = $(this).data("torget");
-            scroll("TOP", $(about_target + "-box"), 600);
         });
 
-        $(window).scroll(function() {
-            clearTimeout($.data(this, 'scrollTimer'));
-            $.data(this, 'scrollTimer', setTimeout(function() {
-                let now_page;
-                $(".page-box").each(function(i, el){
-                    let page_id = $(el).attr('id');
-                    //let top_pos = ( $(el).offset().top - $(document).scrollTop() - $(".navbar").height() + 1 ) / ($( window ).height()  - $(".navbar").height() ) * 100;
-                    let top_pos = ( $(el).offset().top - $(document).scrollTop()) / ($( window ).height()) * 100;
-                    //let bottom_pos = ($(el).offset().top - $(document).scrollTop() + $(el).height() - $(".navbar").height()) / ($( window ).height()  - $(".navbar").height() ) * 100;
-                    let bottom_pos = ($(el).offset().top - $(document).scrollTop() + $(el).height()) / ($( window ).height()) * 100;
-
-                    switch (true) {
-                        case (top_pos <=20 && top_pos > 0):
-                            if ($(el).is(':first-child') == false){
-                                page = page_id;
-                                scroll("TOP", el, 100);
-                            }
-                            break;
-
-                        case (bottom_pos < 100 && bottom_pos >= 80):
-                            page = page_id;
-                            scroll("BOTTOM", el, 100);
-                            break;
-
-                        case (top_pos > 20 && top_pos < 80):
-                            let now_page_index = $(el).index();
-                            let old_page_index = $('#' + page).index();
-                            switch (true) {
-                                case (now_page_index > old_page_index):
-                                    scroll("TOP", el, 300);
-                                    page = page_id;
-                                    break;
-
-                                case (now_page_index <= old_page_index):
-                                    scroll("BOTTOM", $(".page-box")[i-1], 300);
-                                    page = $($(".page-box")[i-1]).attr('id');
-                                    break;
-                            }
-                            break;
-
-                        case (bottom_pos >= 100 && top_pos <= 0):
-                            page = page_id;
-                            break;
-                    }
-                });
-            }, 250));
-        });
-
-        $("html, body").on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function(){
-            $("html, body").stop();
-        });
-
-        let touch_status = false;
-
-        $(".work-img").on('touchstart', function(){
-            clearTimeout($.data(this, "touch_timer"));
-            touch_status = true;
-            $.data(this, "touch_timer", setTimeout(function(){
-                touch_status = false;
-            },500));
-        });
-
-        $(".work-img").mouseover(function(){
-            work_info_target = $(this).data("torget");
-            $(work_info_target).addClass("hover");
-        });
-
-        $(".work-info").mouseleave(function(){
-            $(this).removeClass("hover");
-        });
-
-        $(".work-info").mouseup(function(){
-            if (!touch_status){
-                window.location = $(this).data("url");
-            }
-        });
-
-        $("#contact_submit_button").click(function(){
-            let url = "/api/contact";
-            let method = "POST";
-            let data = {};
-            data['name'] = $("#id_name").val()
-            data['email'] = $("#id_email").val()
-            data['title'] = $("#id_title").val()
-            data['message'] = $("#id_message").val()
-
-            $.ajax({
-                url: url,
-                method: method,
-                headers: {'X-CSRFToken': '{{ csrf_token }}'},
-                data: data,
-                dataType: "json"
-            }).done(function(response) {
-                alert("訊息已送出");
-            })
-        });
 
     });
 </script>
-<div id="head-box">
-    <div id="home-box" class="scroll-bg page-box center" >
-    <div class="container col-sm-10 col-md-10 col-lg-8 col-xl-8">
-        <div class="row">
-            <div id="left-box" class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-3 container center pt-2">
-                <div class="left-image-box">
-                    <img alt="" class="thumbnail" src="{{ head_left_image.url }}">
-                </div>
-            </div>
 
-            <div id="right-box" class="col-md-12 col-lg-9 col-xl-9 right-box container py-3">
-                <div class="col container pb-1">
-                    <p class="head-title">
-                    <span class="text-orange">I'</span>M
-                    <span class="text-orange">R</span>AY
-                    <span class="text-orange">!</span>
-                    </p>
-
-                    <p class="head-content">
-                    <span class="text-orange">維運</span>與<span class="text-orange">網頁全端</span>工程師
-                    </p>
-                </div>
-
-                <div class="col-md-10 col-lg-10 col-xl-10 container about-select-box py-3">
-                    <div class="row">
-                    <div class="col p-0 center"><div class="about-select center" data-torget="#work" id="work-select">WORK</div></div>
-                    <div class="col p-0 center"><div class="about-select center" data-torget="#skill" id="skill-select">SKILL</div></div>
-                    <div class="col p-0 center"><div class="about-select center" data-torget="#contact" id="contact-select">CONTACT</div></div>
-                    <div class="col p-0 center"><div class="about-select center" data-torget="#link" id="link-select">LINK</div></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-
-
-    <div class="page-box about center scroll-bg" id="skill-box">
-        <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-10">
-            <div class="row">
-            {% for skill in skill_list %}
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3 horizontal-center">
-                        <div class="body-image-box center">
-                            <img alt="" class="thumbnail" src="{{ skill.image.url }}">
-                        </div>
-                    <p class="body-title">{{ skill.title }}</p>
-                    <p class="body-data">{{ skill.description }}</p>
-                </div>
-            {% endfor %}
-            </div>
-        </div>
-    </div>
-
-    <div class="page-box about center scroll-bg" id="work-box">
-        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-            <div>
-                <div class="row">
-                {% for work in work_list %}
-                    <div class="col-3 col-sm-6 col-md-6 col-lg-3 col-xl-3 center p-0">
-                        <img alt="" class="thumbnail work-img" data-torget="#work-info-{{ forloop.counter }}" src="{{ work.image.url }}" >
-                        <div id="work-info-{{ forloop.counter }}" class="work-info"  data-url="{{ work.url }}">
-                            <div class="body-title">{{ work.name }}</div>
-                            <div class="body-data">{{ work.content }}</div>
-                        </div>
-                    </div>
-                {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="page-box about center scroll-bg" id="contact-box">
-        <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-10">
-            <div class="col pt-3">
-                <form method="post" action="/api/contact">
-                    {{ comment_form | crispy }}
-                    {% csrf_token %}
-                    <button id="contact_submit_button" class="submit-button" type="button">Send</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="page-box about center scroll-bg" id="link-box">
-        <div class="col-12 col-sm-11 col-md-11 col-lg-10 col-xl-8">
-            <div class="col pt-3">
-                <div class="row">
-                {% for link in link_list %}
-                    <a class="col-6 col-sm-6 col-md-3 link center" href="{{ link.url }}">
-                        <p class="link-title">{{ link.name }}</p>
-                        <div class="body-image-box">
-                            <img alt="" class="thumbnail" src="{{ link.image.url }}">
-                        </div>
-                    </a>
-                {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
+<div v-html="page" id="main-box"></div>
 
 <div id="to-top" class="circle center">
     <div>▲</div>

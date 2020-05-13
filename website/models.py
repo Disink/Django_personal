@@ -54,6 +54,7 @@ class Background(OrderedModel):
     def __str__(self):
         return self.name
 
+
 class Line(models.Model):
     name = models.CharField(max_length=80)
     line_id = models.CharField(max_length=80)
@@ -62,3 +63,10 @@ class Line(models.Model):
     def __str__(self):
         return self.name
 
+
+class Page(OrderedModel):
+    name = models.CharField(max_length=80)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.name
