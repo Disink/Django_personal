@@ -27,4 +27,5 @@ urlpatterns = [
     path('api/contact', views.contact_api_page, name='contact_api'),
     path('api/page', views.page_api_page, name='page_api'),
     path('api/page/data', views.page_data_api_page, name='page_data_api'),
+    path('template/<str:page_type>/<str:page>', views.template_page, name='template'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

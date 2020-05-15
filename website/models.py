@@ -27,6 +27,9 @@ class Contact(models.Model):
     message = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Link(OrderedModel):
     name = models.CharField(max_length=80)
@@ -44,7 +47,6 @@ class Image(models.Model):
 
     def __str__(self):
         return self.name
-
 
 
 class Background(OrderedModel):
@@ -65,6 +67,30 @@ class Line(models.Model):
 
 
 class Page(OrderedModel):
+    name = models.CharField(max_length=80)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class Style(models.Model):
+    name = models.CharField(max_length=80)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class Script(models.Model):
+    name = models.CharField(max_length=80)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class Template(models.Model):
     name = models.CharField(max_length=80)
     content = models.TextField()
 

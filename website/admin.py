@@ -8,6 +8,9 @@ from website.models import Line
 from website.models import Image
 from website.models import Background
 from website.models import Page
+from website.models import Style
+from website.models import Script
+from website.models import Template
 
 
 class SkillAdmin(OrderedModelAdmin):
@@ -52,8 +55,25 @@ class BackgroundAdmin(OrderedModelAdmin):
 admin.site.register(Background, BackgroundAdmin)
 
 
-
 class PageAdmin(OrderedModelAdmin):
     list_display = ['name', 'move_up_down_links']
 
 admin.site.register(Page, PageAdmin)
+
+
+class StyleAdmin(OrderedModelAdmin):
+    list_display = ['name']
+
+admin.site.register(Style, StyleAdmin)
+
+
+class ScriptAdmin(OrderedModelAdmin):
+    list_display = ['name']
+
+admin.site.register(Script, ScriptAdmin)
+
+
+class TemplateAdmin(OrderedModelAdmin):
+    list_display = ['name']
+
+admin.site.register(Template, TemplateAdmin)
