@@ -19,7 +19,7 @@ from website.models import Contact
 from website.models import Page
 from website.models import Style
 from website.models import Script
-from website.models import Template
+from website.models import Dynamic
 
 from website.forms import ContactForm
 
@@ -52,8 +52,8 @@ def home_page(request):
                                          'head_background': head_background,
                                          'comment_form': contact_form,})
 
-def template_page(request, page_type, page):
-    template_content = Template.objects.get(name=page).content
+def dynamic_page(request, page_type, page):
+    dynamic_content = Dynamic.objects.get(name=page).content
 
     skill_list = Skill.objects.all()
     work_list = Work.objects.all()
@@ -69,7 +69,7 @@ def template_page(request, page_type, page):
                                                     'style_list': style_list,
                                                     'script_list': script_list,})
 
-    first_template = template.Template(template_content)
+    first_template = template.Template(dynamic_content)
     first_render =  HTMLParser().unescape(first_template.render(context_list))
 
     second_template = template.Template(first_render)

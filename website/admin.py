@@ -10,7 +10,7 @@ from website.models import Background
 from website.models import Page
 from website.models import Style
 from website.models import Script
-from website.models import Template
+from website.models import Dynamic
 
 
 class SkillAdmin(OrderedModelAdmin):
@@ -73,7 +73,7 @@ class ScriptAdmin(OrderedModelAdmin):
 admin.site.register(Script, ScriptAdmin)
 
 
-class TemplateAdmin(OrderedModelAdmin):
+class DynamicAdmin(OrderedModelAdmin):
     list_display = ['name']
 
-admin.site.register(Template, TemplateAdmin)
+admin.site.register(Dynamic, DynamicAdmin)

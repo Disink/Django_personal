@@ -90,7 +90,7 @@ class Script(models.Model):
         return self.name
 
 
-class Template(models.Model):
+class Dynamic(models.Model):
     name = models.CharField(max_length=80)
     content = models.TextField()
 
