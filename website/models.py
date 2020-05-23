@@ -66,9 +66,15 @@ class Line(models.Model):
         return self.name
 
 
+STATUS = (
+    (0, 'Hidden'),
+    (1, 'Show')
+)
+
 class Page(OrderedModel):
     name = models.CharField(max_length=80)
     content = models.TextField()
+    select_status = models.IntegerField(choices=STATUS, default=0)
 
     def __str__(self):
         return self.name

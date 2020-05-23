@@ -32,6 +32,7 @@ def home_page(request):
     gackground_list = Background.objects.all()
     style_list = Style.objects.all()
     script_list = Script.objects.all()
+    page_select_list = Page.objects.filter(select_status=1)
 
     head_left_image = Image.objects.get(name='head-left-image').image
     head_background = Image.objects.get(name='head-background').image
@@ -48,6 +49,7 @@ def home_page(request):
                                          'work_list': work_list,
                                          'link_list': link_list,
                                          'background_list': gackground_list,
+                                         'page_select_list': page_select_list,
                                          'head_left_image': head_left_image,
                                          'head_background': head_background,
                                          'comment_form': contact_form,})
@@ -61,13 +63,15 @@ def dynamic_page(request, page_type, page):
     gackground_list = Background.objects.all()
     style_list = Style.objects.all()
     script_list = Script.objects.all()
+    page_select_list = Page.objects.filter(select_status=1)
 
     context_list = template.RequestContext(request,{'skill_list': skill_list,
                                                     'work_list': work_list,
                                                     'link_list': link_list,
                                                     'background_list': gackground_list,
                                                     'style_list': style_list,
-                                                    'script_list': script_list,})
+                                                    'script_list': script_list,
+                                                    'page_select_list': page_select_list,})
 
     first_template = template.Template(dynamic_content)
     first_render =  HTMLParser().unescape(first_template.render(context_list))
